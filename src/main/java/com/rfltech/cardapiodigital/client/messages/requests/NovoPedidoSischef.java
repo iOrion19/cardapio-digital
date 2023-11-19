@@ -5,15 +5,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 
+@JsonIgnoreProperties(
+        ignoreUnknown = true
+)
 public class NovoPedidoSischef {
-
     private String id;
     private String idUnicoIntegracao;
     private LocalDateTime dataPedido;
     private LocalDateTime createdAt;
-
-    private String tipoDelivery;
+    private String tipoDelivery = "PENDENTE";
     private String tipoPedido;
     private String situacao;
     private String descricao;
@@ -21,22 +28,17 @@ public class NovoPedidoSischef {
     private BigDecimal valorTotal;
     private BigDecimal troco;
     private BigDecimal valorDesconto;
-
     @JsonProperty("codigo_desconto")
     private String codigoDesconto;
-
     private BigDecimal valorTaxaEntrega;
-
     private PessoaSischef pessoa;
-
     private List<Pagamento> pagamentos;
 
     public NovoPedidoSischef() {
-        this.tipoDelivery = "PENDENTE";
     }
 
     public List<Pagamento> getPagamentos() {
-        return pagamentos;
+        return this.pagamentos;
     }
 
     public void setPagamentos(List<Pagamento> pagamentos) {
@@ -44,7 +46,7 @@ public class NovoPedidoSischef {
     }
 
     public String getCodigoDesconto() {
-        return codigoDesconto;
+        return this.codigoDesconto;
     }
 
     public void setCodigoDesconto(String codigoDesconto) {
@@ -52,7 +54,7 @@ public class NovoPedidoSischef {
     }
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(String id) {
@@ -60,7 +62,7 @@ public class NovoPedidoSischef {
     }
 
     public String getTipoDelivery() {
-        return tipoDelivery;
+        return this.tipoDelivery;
     }
 
     public void setTipoDelivery(String tipoDelivery) {
@@ -68,7 +70,7 @@ public class NovoPedidoSischef {
     }
 
     public String getIdUnicoIntegracao() {
-        return idUnicoIntegracao;
+        return this.idUnicoIntegracao;
     }
 
     public void setIdUnicoIntegracao(String idUnicoIntegracao) {
@@ -76,7 +78,7 @@ public class NovoPedidoSischef {
     }
 
     public LocalDateTime getDataPedido() {
-        return dataPedido;
+        return this.dataPedido;
     }
 
     public void setDataPedido(LocalDateTime dataPedido) {
@@ -84,7 +86,7 @@ public class NovoPedidoSischef {
     }
 
     public LocalDateTime getCreatedAt() {
-        return createdAt;
+        return this.createdAt;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
@@ -92,11 +94,11 @@ public class NovoPedidoSischef {
     }
 
     public PessoaSischef getPessoa() {
-        return pessoa;
+        return this.pessoa;
     }
 
     public BigDecimal getValorTaxaEntrega() {
-        return valorTaxaEntrega;
+        return this.valorTaxaEntrega;
     }
 
     public void setValorTaxaEntrega(BigDecimal valorTaxaEntrega) {
@@ -108,7 +110,7 @@ public class NovoPedidoSischef {
     }
 
     public String getTipoPedido() {
-        return tipoPedido;
+        return this.tipoPedido;
     }
 
     public void setTipoPedido(String tipoPedido) {
@@ -116,7 +118,7 @@ public class NovoPedidoSischef {
     }
 
     public String getSituacao() {
-        return situacao;
+        return this.situacao;
     }
 
     public void setSituacao(String situacao) {
@@ -124,7 +126,7 @@ public class NovoPedidoSischef {
     }
 
     public List<ItemSischef> getItens() {
-        return itens;
+        return this.itens;
     }
 
     public void setItens(List<ItemSischef> itens) {
@@ -132,7 +134,7 @@ public class NovoPedidoSischef {
     }
 
     public BigDecimal getValorTotal() {
-        return valorTotal;
+        return this.valorTotal;
     }
 
     public void setValorTotal(BigDecimal valorTotal) {
@@ -140,7 +142,7 @@ public class NovoPedidoSischef {
     }
 
     public BigDecimal getTroco() {
-        return troco;
+        return this.troco;
     }
 
     public void setTroco(BigDecimal troco) {
@@ -148,11 +150,11 @@ public class NovoPedidoSischef {
     }
 
     public BigDecimal getValorDesconto() {
-        return valorDesconto;
+        return this.valorDesconto;
     }
 
     public String getDescricao() {
-        return descricao;
+        return this.descricao;
     }
 
     public void setDescricao(String descricao) {
@@ -163,103 +165,7 @@ public class NovoPedidoSischef {
         this.valorDesconto = valorDesconto;
     }
 
-
-
-    public static class ItemSischef {
-
-        private ProdutoSischef produto;
-
-        private BigDecimal valorTotal;
-
-        private BigDecimal valorUnitario;
-
-        private List<ItemSischef> subItens;
-
-        private Long quantidade;
-        private String codigoExterno;
-
-        public ProdutoSischef getProduto() {
-            return produto;
-        }
-
-        public void setProduto(ProdutoSischef produto) {
-            this.produto = produto;
-        }
-
-        public BigDecimal getValorTotal() {
-            return valorTotal;
-        }
-
-        public void setValorTotal(BigDecimal valorTotal) {
-            this.valorTotal = valorTotal;
-        }
-
-        public BigDecimal getValorUnitario() {
-            return valorUnitario;
-        }
-
-        public void setValorUnitario(BigDecimal valorUnitario) {
-            this.valorUnitario = valorUnitario;
-        }
-
-        public List<ItemSischef> getSubItens() {
-            return subItens;
-        }
-
-        public void setSubItens(List<ItemSischef> subItens) {
-            this.subItens = subItens;
-        }
-
-        public Long getQuantidade() {
-            return quantidade;
-        }
-
-        public void setQuantidade(Long quantidade) {
-            this.quantidade = quantidade;
-        }
-
-        public String getCodigoExterno() {
-            return codigoExterno;
-        }
-
-        public void setCodigoExterno(String codigoExterno) {
-            this.codigoExterno = codigoExterno;
-        }
-    }
-
-    public static class ProdutoSischef {
-
-        private String id;
-        private String nome;
-        private String descricao;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getNome() {
-            return nome;
-        }
-
-        public void setNome(String nome) {
-            this.nome = nome;
-        }
-
-        public String getDescricao() {
-            return descricao;
-        }
-
-        public void setDescricao(String descricao) {
-            this.descricao = descricao;
-        }
-    }
-
     public static class PessoaSischef {
-
         private String id;
         private String nome;
         private String endereco;
@@ -271,8 +177,11 @@ public class NovoPedidoSischef {
         private Estado estado;
         private Municipio municipio;
 
+        public PessoaSischef() {
+        }
+
         public String getId() {
-            return id;
+            return this.id;
         }
 
         public void setId(String id) {
@@ -280,7 +189,7 @@ public class NovoPedidoSischef {
         }
 
         public String getEndereco() {
-            return endereco;
+            return this.endereco;
         }
 
         public void setEndereco(String endereco) {
@@ -288,7 +197,7 @@ public class NovoPedidoSischef {
         }
 
         public String getNome() {
-            return nome;
+            return this.nome;
         }
 
         public void setNome(String nome) {
@@ -296,7 +205,7 @@ public class NovoPedidoSischef {
         }
 
         public String getNumero() {
-            return numero;
+            return this.numero;
         }
 
         public void setNumero(String numero) {
@@ -304,7 +213,7 @@ public class NovoPedidoSischef {
         }
 
         public String getTelefone() {
-            return telefone;
+            return this.telefone;
         }
 
         public void setTelefone(String telefone) {
@@ -312,7 +221,7 @@ public class NovoPedidoSischef {
         }
 
         public String getBairro() {
-            return bairro;
+            return this.bairro;
         }
 
         public void setBairro(String bairro) {
@@ -320,7 +229,7 @@ public class NovoPedidoSischef {
         }
 
         public String getCep() {
-            return cep;
+            return this.cep;
         }
 
         public void setCep(String cep) {
@@ -328,7 +237,7 @@ public class NovoPedidoSischef {
         }
 
         public String getComplemento() {
-            return complemento;
+            return this.complemento;
         }
 
         public void setComplemento(String complemento) {
@@ -336,7 +245,7 @@ public class NovoPedidoSischef {
         }
 
         public Estado getEstado() {
-            return estado;
+            return this.estado;
         }
 
         public void setEstado(Estado estado) {
@@ -344,49 +253,24 @@ public class NovoPedidoSischef {
         }
 
         public Municipio getMunicipio() {
-            return municipio;
+            return this.municipio;
         }
 
         public void setMunicipio(Municipio municipio) {
             this.municipio = municipio;
         }
-
-
-    }
-
-    public static class Estado {
-        private String sigla;
-
-        public String getSigla() {
-            return sigla;
-        }
-
-        public void setSigla(String sigla) {
-            this.sigla = sigla;
-        }
-    }
-
-    public static class Municipio {
-        private String nome;
-
-        public String getNome() {
-            return nome;
-        }
-
-        public void setNome(String sigla) {
-            this.nome = sigla;
-        }
     }
 
     public static class Pagamento {
-
         private Long id;
         private FormaPagamento formaPagamento;
-
         private BigDecimal valor;
 
+        public Pagamento() {
+        }
+
         public Long getId() {
-            return id;
+            return this.id;
         }
 
         public void setId(Long id) {
@@ -394,7 +278,7 @@ public class NovoPedidoSischef {
         }
 
         public FormaPagamento getFormaPagamento() {
-            return formaPagamento;
+            return this.formaPagamento;
         }
 
         public void setFormaPagamento(FormaPagamento formaPagamento) {
@@ -402,7 +286,7 @@ public class NovoPedidoSischef {
         }
 
         public BigDecimal getValor() {
-            return valor;
+            return this.valor;
         }
 
         public void setValor(BigDecimal valor) {
@@ -410,12 +294,15 @@ public class NovoPedidoSischef {
         }
 
         public static class FormaPagamento {
-
             private String descricao;
             private String tipo;
+            private String pagamento;
+
+            public FormaPagamento() {
+            }
 
             public String getDescricao() {
-                return descricao;
+                return this.descricao;
             }
 
             public void setDescricao(String descricao) {
@@ -423,14 +310,221 @@ public class NovoPedidoSischef {
             }
 
             public String getTipo() {
-                return tipo;
+                return this.tipo;
             }
 
             public void setTipo(String tipo) {
                 this.tipo = tipo;
             }
+
+            public String getPagamento() {
+                return this.pagamento;
+            }
+
+            public void setPagamento(String pagamento) {
+                this.pagamento = pagamento;
+            }
         }
     }
 
+    public static class Municipio {
+        private String nome;
+
+        public Municipio() {
+        }
+
+        public String getNome() {
+            return this.nome;
+        }
+
+        public void setNome(String sigla) {
+            this.nome = sigla;
+        }
+    }
+
+    public static class Estado {
+        private String sigla;
+
+        public Estado() {
+        }
+
+        public String getSigla() {
+            return this.sigla;
+        }
+
+        public void setSigla(String sigla) {
+            this.sigla = sigla;
+        }
+    }
+
+    public static class ProdutoSischef {
+        private String id;
+        private String nome;
+        private String descricao;
+
+        public ProdutoSischef() {
+        }
+
+        public String getId() {
+            return this.id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getNome() {
+            return this.nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public String getDescricao() {
+            return this.descricao;
+        }
+
+        public void setDescricao(String descricao) {
+            this.descricao = descricao;
+        }
+    }
+
+    public static class ItemSischef {
+        private ProdutoSischef produto;
+        private BigDecimal valorTotal;
+        private BigDecimal valorUnitario;
+        private List<SubItemPedido> subItens;
+        private Long quantidade;
+        private String codigoExterno;
+        @JsonIgnore
+        private String obs;
+
+        public ItemSischef() {
+        }
+
+        public ProdutoSischef getProduto() {
+            return this.produto;
+        }
+
+        public String getObservacao() {
+            return this.obs;
+        }
+
+        public void setProduto(ProdutoSischef produto) {
+            this.produto = produto;
+        }
+
+        public String getObs() {
+            return this.obs;
+        }
+
+        public void setObs(String obs) {
+            this.obs = obs;
+        }
+
+        public BigDecimal getValorTotal() {
+            return this.valorTotal;
+        }
+
+        public void setValorTotal(BigDecimal valorTotal) {
+            this.valorTotal = valorTotal;
+        }
+
+        public BigDecimal getValorUnitario() {
+            return this.valorUnitario;
+        }
+
+        public void setValorUnitario(BigDecimal valorUnitario) {
+            this.valorUnitario = valorUnitario;
+        }
+
+        public List<SubItemPedido> getSubItens() {
+            return this.subItens;
+        }
+
+        public void setSubItens(List<SubItemPedido> subItens) {
+            this.subItens = subItens;
+        }
+
+        public Long getQuantidade() {
+            return this.quantidade;
+        }
+
+        public void setQuantidade(Long quantidade) {
+            this.quantidade = quantidade;
+        }
+
+        public String getCodigoExterno() {
+            return this.codigoExterno;
+        }
+
+        public void setCodigoExterno(String codigoExterno) {
+            this.codigoExterno = codigoExterno;
+        }
+
+        @JsonIgnoreProperties(
+                ignoreUnknown = true
+        )
+        public static class SubItemPedido {
+            private String descricao;
+            private BigDecimal valorTotal;
+            private BigDecimal valorUnitario;
+            private List<ItemSischef> subItens;
+            private Long quantidade;
+            private String codigoExterno;
+
+            public SubItemPedido() {
+            }
+
+            public String getDescricao() {
+                return this.descricao;
+            }
+
+            public void setDescricao(String descricao) {
+                this.descricao = descricao;
+            }
+
+            public BigDecimal getValorTotal() {
+                return this.valorTotal;
+            }
+
+            public void setValorTotal(BigDecimal valorTotal) {
+                this.valorTotal = valorTotal;
+            }
+
+            public BigDecimal getValorUnitario() {
+                return this.valorUnitario;
+            }
+
+            public void setValorUnitario(BigDecimal valorUnitario) {
+                this.valorUnitario = valorUnitario;
+            }
+
+            public List<ItemSischef> getSubItens() {
+                return this.subItens;
+            }
+
+            public void setSubItens(List<ItemSischef> subItens) {
+                this.subItens = subItens;
+            }
+
+            public Long getQuantidade() {
+                return this.quantidade;
+            }
+
+            public void setQuantidade(Long quantidade) {
+                this.quantidade = quantidade;
+            }
+
+            public String getCodigoExterno() {
+                return this.codigoExterno;
+            }
+
+            public void setCodigoExterno(String codigoExterno) {
+                this.codigoExterno = codigoExterno;
+            }
+        }
+    }
 
 }

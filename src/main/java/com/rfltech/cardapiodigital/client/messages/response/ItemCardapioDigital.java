@@ -9,23 +9,21 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ItemCardapioDigital {
 
-    @JsonProperty(value = "cod_pdv")
+    @JsonProperty("cod_pdv")
     private String codigoExterno;
-
     private String nome;
-
     private BigDecimal valor;
-
     private Long quantidade;
-
     private boolean resgatado;
-
+    private String obs;
     private List<ItemCardapioDigital> complementos;
-
     private String descricao;
 
+    public ItemCardapioDigital() {
+    }
+
     public boolean isResgatado() {
-        return resgatado;
+        return this.resgatado;
     }
 
     public void setResgatado(boolean resgatado) {
@@ -33,7 +31,7 @@ public class ItemCardapioDigital {
     }
 
     public String getNome() {
-        return nome;
+        return this.nome;
     }
 
     public void setNome(String nome) {
@@ -41,7 +39,7 @@ public class ItemCardapioDigital {
     }
 
     public BigDecimal getValor() {
-        return valor;
+        return this.valor;
     }
 
     public void setValor(BigDecimal valor) {
@@ -49,15 +47,23 @@ public class ItemCardapioDigital {
     }
 
     public Long getQuantidade() {
-        return quantidade;
+        return this.quantidade;
     }
 
     public void setQuantidade(Long quantidade) {
         this.quantidade = quantidade;
     }
 
+    public String getObs() {
+        return this.obs;
+    }
+
+    public void setObs(String obs) {
+        this.obs = obs;
+    }
+
     public List<ItemCardapioDigital> getComplementos() {
-        return complementos;
+        return this.complementos;
     }
 
     public void setComplementos(List<ItemCardapioDigital> complementos) {
@@ -65,7 +71,7 @@ public class ItemCardapioDigital {
     }
 
     public String getDescricao() {
-        return descricao;
+        return this.descricao;
     }
 
     public void setDescricao(String descricao) {
@@ -73,7 +79,7 @@ public class ItemCardapioDigital {
     }
 
     public String getCodigoExterno() {
-        return codigoExterno;
+        return this.codigoExterno;
     }
 
     public void setCodigoExterno(String codigoExterno) {

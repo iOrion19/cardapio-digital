@@ -13,50 +13,74 @@ import java.util.List;
 public class PedidoResponseCardapioDigital {
 
     private Long ref;
-
     private String obs;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonProperty(value = "created_at")
+    @JsonFormat(
+            pattern = "yyyy-MM-dd HH:mm:ss"
+    )
+    @JsonProperty("created_at")
     private LocalDateTime createdAt;
-
-    private BigDecimal total;
-
-    private BigDecimal troco;
-
-    @JsonProperty(value = "valor_desconto")
+    @JsonProperty("total_com_descontos")
+    private BigDecimal totalComDesconto;
+    @JsonProperty("total")
+    private BigDecimal valorTotal;
+    private String troco;
+    @JsonProperty("meio_de_pagamento")
+    private String meioPagamento;
+    @JsonProperty("valor_desconto")
     private BigDecimal valorDesconto;
-
-    @JsonProperty(value = "valor_entrega")
+    @JsonProperty("valor_entrega")
     private BigDecimal valorTaxaEntrega;
     private Integer delivery;
-
     private List<ItemCardapioDigital> itens;
-
     private UsuarioCardapioDigital usuario;
-
+    @JsonProperty("mensagem_no_cartao")
+    private MensagemCartao mensagem;
     @JsonProperty("cpf_cnpj")
     private String cpfCnpj;
-
     @JsonProperty("codigo_desconto")
     private String codigoDesconto;
-
-    @JsonProperty(value = "meios_de_pagamento")
+    @JsonProperty("meios_de_pagamento")
     private MeiosPagamento pagamentos;
-
-    @JsonProperty(value = "endereco_de_entrega")
+    @JsonProperty("endereco_de_entrega")
     private EnderecoEntregaCardapioDigital endereco;
 
+    public PedidoResponseCardapioDigital() {
+    }
+
+    public BigDecimal getValorTotal() {
+        return this.valorTotal;
+    }
+
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
     public String getObs() {
-        return obs;
+        return this.obs;
     }
 
     public void setObs(String obs) {
         this.obs = obs;
     }
 
+    public MensagemCartao getMensagem() {
+        return this.mensagem;
+    }
+
+    public void setMensagem(MensagemCartao mensagem) {
+        this.mensagem = mensagem;
+    }
+
+    public String getMeioPagamento() {
+        return this.meioPagamento;
+    }
+
+    public void setMeioPagamento(String meioPagamento) {
+        this.meioPagamento = meioPagamento;
+    }
+
     public MeiosPagamento getPagamentos() {
-        return pagamentos;
+        return this.pagamentos;
     }
 
     public void setPagamentos(MeiosPagamento pagamentos) {
@@ -64,7 +88,7 @@ public class PedidoResponseCardapioDigital {
     }
 
     public String getCodigoDesconto() {
-        return codigoDesconto;
+        return this.codigoDesconto;
     }
 
     public void setCodigoDesconto(String codigoDesconto) {
@@ -72,11 +96,11 @@ public class PedidoResponseCardapioDigital {
     }
 
     public UsuarioCardapioDigital getUsuario() {
-        return usuario;
+        return this.usuario;
     }
 
     public BigDecimal getValorTaxaEntrega() {
-        return valorTaxaEntrega;
+        return this.valorTaxaEntrega;
     }
 
     public void setValorTaxaEntrega(BigDecimal valorTaxaEntrega) {
@@ -88,11 +112,11 @@ public class PedidoResponseCardapioDigital {
     }
 
     public EnderecoEntregaCardapioDigital getEndereco() {
-        return endereco;
+        return this.endereco;
     }
 
     public String getCpfCnpj() {
-        return cpfCnpj;
+        return this.cpfCnpj;
     }
 
     public void setCpfCnpj(String cpfCnpj) {
@@ -104,7 +128,7 @@ public class PedidoResponseCardapioDigital {
     }
 
     public Long getRef() {
-        return ref;
+        return this.ref;
     }
 
     public void setRef(Long ref) {
@@ -112,7 +136,7 @@ public class PedidoResponseCardapioDigital {
     }
 
     public Integer getDelivery() {
-        return delivery;
+        return this.delivery;
     }
 
     public void setDelivery(Integer delivery) {
@@ -120,31 +144,31 @@ public class PedidoResponseCardapioDigital {
     }
 
     public LocalDateTime getCreatedAt() {
-        return createdAt;
+        return this.createdAt;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public BigDecimal getTotal() {
-        return total;
+    public BigDecimal getTotalComDesconto() {
+        return this.totalComDesconto;
     }
 
-    public void setTotal(BigDecimal total) {
-        this.total = total;
+    public void setTotalComDesconto(BigDecimal totalComDesconto) {
+        this.totalComDesconto = totalComDesconto;
     }
 
-    public BigDecimal getTroco() {
-        return troco;
+    public String getTroco() {
+        return this.troco;
     }
 
-    public void setTroco(BigDecimal troco) {
+    public void setTroco(String troco) {
         this.troco = troco;
     }
 
     public BigDecimal getValorDesconto() {
-        return valorDesconto;
+        return this.valorDesconto;
     }
 
     public void setValorDesconto(BigDecimal valorDesconto) {
@@ -152,26 +176,59 @@ public class PedidoResponseCardapioDigital {
     }
 
     public List<ItemCardapioDigital> getItens() {
-        return itens;
+        return this.itens;
     }
 
     public void setItens(List<ItemCardapioDigital> itens) {
         this.itens = itens;
     }
 
-    public static class UsuarioCardapioDigital {
+    public static class MensagemCartao {
+        private Campos campos;
 
+        public MensagemCartao() {
+        }
+
+        public Campos getCampos() {
+            return this.campos;
+        }
+
+        public void setCampos(Campos campos) {
+            this.campos = campos;
+        }
+    }
+
+    public static class MeiosPagamento {
+        private List<Meio> meios;
+
+        public MeiosPagamento() {
+        }
+
+        public List<Meio> getMeios() {
+            return this.meios;
+        }
+
+        public void setMeios(List<Meio> meios) {
+            this.meios = meios;
+        }
+    }
+
+    public static class UsuarioCardapioDigital {
         private String nome;
         private String sobrenome;
         private String telefone;
-        @JsonProperty(value = "data_nascimento")
-        @JsonFormat(pattern = "yyyy-MM-dd")
+        @JsonProperty("data_nascimento")
+        @JsonFormat(
+                pattern = "yyyy-MM-dd"
+        )
         private LocalDate dataNascimento;
-
         private String genero;
 
+        public UsuarioCardapioDigital() {
+        }
+
         public String getNome() {
-            return nome;
+            return this.nome;
         }
 
         public void setNome(String nome) {
@@ -179,17 +236,15 @@ public class PedidoResponseCardapioDigital {
         }
 
         public String getSobrenome() {
-            return sobrenome;
+            return this.sobrenome;
         }
 
         public void setSobrenome(String sobrenome) {
             this.sobrenome = sobrenome;
         }
 
-
-
         public String getTelefone() {
-            return telefone;
+            return this.telefone;
         }
 
         public void setTelefone(String telefone) {
@@ -197,7 +252,7 @@ public class PedidoResponseCardapioDigital {
         }
 
         public LocalDate getDataNascimento() {
-            return dataNascimento;
+            return this.dataNascimento;
         }
 
         public void setDataNascimento(LocalDate dataNascimento) {
@@ -205,7 +260,7 @@ public class PedidoResponseCardapioDigital {
         }
 
         public String getGenero() {
-            return genero;
+            return this.genero;
         }
 
         public void setGenero(String genero) {
@@ -214,7 +269,6 @@ public class PedidoResponseCardapioDigital {
     }
 
     public static class EnderecoEntregaCardapioDigital {
-
         private String logradouro;
         private String numero;
         private String complemento;
@@ -224,8 +278,11 @@ public class PedidoResponseCardapioDigital {
         private String cidade;
         private String uf;
 
+        public EnderecoEntregaCardapioDigital() {
+        }
+
         public String getLogradouro() {
-            return logradouro;
+            return this.logradouro;
         }
 
         public void setLogradouro(String logradouro) {
@@ -233,7 +290,7 @@ public class PedidoResponseCardapioDigital {
         }
 
         public String getNumero() {
-            return numero;
+            return this.numero;
         }
 
         public void setNumero(String numero) {
@@ -241,7 +298,7 @@ public class PedidoResponseCardapioDigital {
         }
 
         public String getComplemento() {
-            return complemento;
+            return this.complemento;
         }
 
         public void setComplemento(String complemento) {
@@ -249,7 +306,7 @@ public class PedidoResponseCardapioDigital {
         }
 
         public String getReferencia() {
-            return referencia;
+            return this.referencia;
         }
 
         public void setReferencia(String referencia) {
@@ -257,7 +314,7 @@ public class PedidoResponseCardapioDigital {
         }
 
         public String getBairro() {
-            return bairro;
+            return this.bairro;
         }
 
         public void setBairro(String bairro) {
@@ -265,7 +322,7 @@ public class PedidoResponseCardapioDigital {
         }
 
         public String getCep() {
-            return cep;
+            return this.cep;
         }
 
         public void setCep(String cep) {
@@ -273,7 +330,7 @@ public class PedidoResponseCardapioDigital {
         }
 
         public String getCidade() {
-            return cidade;
+            return this.cidade;
         }
 
         public void setCidade(String cidade) {
@@ -281,7 +338,7 @@ public class PedidoResponseCardapioDigital {
         }
 
         public String getUf() {
-            return uf;
+            return this.uf;
         }
 
         public void setUf(String uf) {
@@ -289,62 +346,110 @@ public class PedidoResponseCardapioDigital {
         }
     }
 
-    public static class MeiosPagamento {
+    public static class Campos {
+        @JsonProperty("de_text")
+        private String deText;
+        private String anonimo;
+        @JsonProperty("para_text")
+        private String para;
+        @JsonProperty("mensagem_text")
+        private String mensagem;
+        @JsonProperty("nome_destinatario")
+        private String nomeDestinatario;
+        @JsonProperty("telefone_destinatario")
+        private String telefoneDestinatario;
 
-        private List<Meio> meios;
-
-        public List<Meio> getMeios() {
-            return meios;
+        public Campos() {
         }
 
-        public void setMeios(List<Meio> meios) {
-            this.meios = meios;
+        public String getDeText() {
+            return this.deText;
+        }
+
+        public void setDeText(String deText) {
+            this.deText = deText;
+        }
+
+        public String getAnonimo() {
+            return this.anonimo;
+        }
+
+        public void setAnonimo(String anonimo) {
+            this.anonimo = anonimo;
+        }
+
+        public String getPara() {
+            return this.para;
+        }
+
+        public void setPara(String para) {
+            this.para = para;
+        }
+
+        public String getMensagem() {
+            return this.mensagem;
+        }
+
+        public void setMensagem(String mensagem) {
+            this.mensagem = mensagem;
+        }
+
+        public String getNomeDestinatario() {
+            return this.nomeDestinatario;
+        }
+
+        public void setNomeDestinatario(String nomeDestinatario) {
+            this.nomeDestinatario = nomeDestinatario;
+        }
+
+        public String getTelefoneDestinatario() {
+            return this.telefoneDestinatario;
+        }
+
+        public void setTelefoneDestinatario(String telefoneDestinatario) {
+            this.telefoneDestinatario = telefoneDestinatario;
         }
     }
 
     public static class Meio {
-
-        @JsonProperty(value = "forma_id")
+        @JsonProperty("forma_id")
         private String id;
-
         private BigDecimal valor;
-
-        private BigDecimal troco;
-
+        private String troco;
         private String categoria;
-
         private String nome;
-
         private String tag;
-
         private String img;
 
+        public Meio() {
+        }
+
         public String getId() {
-            return id;
+            return this.id;
         }
 
         public void setId(String formaId) {
-            this.id = id;
+            this.id = this.id;
         }
 
         public BigDecimal getValor() {
-            return valor;
+            return this.valor;
         }
 
         public void setValor(BigDecimal valor) {
             this.valor = valor;
         }
 
-        public BigDecimal getTroco() {
-            return troco;
+        public String getTroco() {
+            return this.troco;
         }
 
-        public void setTroco(BigDecimal troco) {
+        public void setTroco(String troco) {
             this.troco = troco;
         }
 
         public String getCategoria() {
-            return categoria;
+            return this.categoria;
         }
 
         public void setCategoria(String categoria) {
@@ -352,7 +457,7 @@ public class PedidoResponseCardapioDigital {
         }
 
         public String getNome() {
-            return nome;
+            return this.nome;
         }
 
         public void setNome(String nome) {
@@ -360,7 +465,7 @@ public class PedidoResponseCardapioDigital {
         }
 
         public String getTag() {
-            return tag;
+            return this.tag;
         }
 
         public void setTag(String tag) {
@@ -368,7 +473,7 @@ public class PedidoResponseCardapioDigital {
         }
 
         public String getImg() {
-            return img;
+            return this.img;
         }
 
         public void setImg(String img) {
