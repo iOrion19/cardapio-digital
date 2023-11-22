@@ -130,7 +130,6 @@ public class TransferirPedidosCardapioToSischef {
             formaPagamento.setPagamento("ONLINE");
             pagamentoOnline.setFormaPagamento(formaPagamento);
             sischefOrder.getPagamentos().add(pagamentoOnline);
-            return;
         }
         String codigoCardapio = MeioPagamentoEnum.obterCodigoCardapio(response.getIdMeioPagamento());
         sischefOrder.getPagamentos().get(0).getFormaPagamento().setCodigoExterno(codigoCardapio);
