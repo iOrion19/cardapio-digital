@@ -4,7 +4,7 @@ cardapio-digital:
 
 sischef:
   host: 'https://sistema.sischef.com/api-v2/webhook/integracao/OT'
-  token: '2904cd7f-e24c-43a1-a58a-ed339d12efcf'
+  token: ${sischef.token}
 
 spring:
   datasource:
