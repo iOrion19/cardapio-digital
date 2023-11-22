@@ -6,6 +6,7 @@ import com.rfltech.cardapiodigital.client.CardapioDigitalClient;
 import com.rfltech.cardapiodigital.client.SischefClient;
 import com.rfltech.cardapiodigital.client.messages.requests.NovoPedidoSischef;
 import com.rfltech.cardapiodigital.client.messages.response.PedidoResponseCardapioDigital;
+import com.rfltech.cardapiodigital.enums.MeioPagamentoEnum;
 import com.rfltech.cardapiodigital.mapper.CardapioSischefMapper;
 import com.rfltech.cardapiodigital.model.PedidoStatus;
 import com.rfltech.cardapiodigital.model.enumerator.StatusEnum;
@@ -51,8 +52,8 @@ public class TransferirPedidosCardapioToSischef {
         logger.info("=========== REQUEST ==================");
         logger.info(this.objectMapper.writeValueAsString(sischefOrder));
         logger.info("=========== FIM REQUEST ==================");
-        logger.info((String)stringResponseEntity.getBody());
-        PedidoStatus pedidoStatus = new PedidoStatus(pedido.getRef(), StatusEnum.PENDENTE.name(), this.extrairIdUnicoIntegracao((String)stringResponseEntity.getBody()));
+        logger.info(stringResponseEntity.getBody());
+        PedidoStatus pedidoStatus = new PedidoStatus(pedido.getRef(), StatusEnum.PENDENTE.name(), this.extrairIdUnicoIntegracao((String) stringResponseEntity.getBody()));
         this.repository.save(pedidoStatus);
     }
 
@@ -60,10 +61,10 @@ public class TransferirPedidosCardapioToSischef {
         cardapioDigitalOrder.getItens().forEach((itemCardapio) -> {
             if (itemCardapio.isResgatado()) {
                 itemCardapio.setNome(itemCardapio.getNome() + " (Resgatado)");
-                List<BigDecimal> itensCardapio = (List)itemCardapio.getComplementos().stream().map((x) -> {
+                List<BigDecimal> itensCardapio = (List) itemCardapio.getComplementos().stream().map((x) -> {
                     return x.getValor();
                 }).collect(Collectors.toList());
-                cardapioDigitalOrder.setValorDesconto(cardapioDigitalOrder.getValorDesconto().add(itemCardapio.getValor()).add((BigDecimal)itensCardapio.stream().reduce(BigDecimal.ZERO, BigDecimal::add)));
+                cardapioDigitalOrder.setValorDesconto(cardapioDigitalOrder.getValorDesconto().add(itemCardapio.getValor()).add((BigDecimal) itensCardapio.stream().reduce(BigDecimal.ZERO, BigDecimal::add)));
             }
 
         });
@@ -129,9 +130,9 @@ public class TransferirPedidosCardapioToSischef {
             formaPagamento.setPagamento("ONLINE");
             pagamentoOnline.setFormaPagamento(formaPagamento);
             sischefOrder.getPagamentos().add(pagamentoOnline);
+            return;
         }
-
+        String codigoCardapio = MeioPagamentoEnum.obterCodigoCardapio(response.getIdMeioPagamento());
+        sischefOrder.getPagamentos().get(0).getFormaPagamento().setCodigoExterno(codigoCardapio);
     }
-
-
 }

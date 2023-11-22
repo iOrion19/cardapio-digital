@@ -297,6 +297,7 @@ public class NovoPedidoSischef {
             private String descricao;
             private String tipo;
             private String pagamento;
+            private String codigoExterno;
 
             public FormaPagamento() {
             }
@@ -323,6 +324,14 @@ public class NovoPedidoSischef {
 
             public void setPagamento(String pagamento) {
                 this.pagamento = pagamento;
+            }
+
+            public String getCodigoExterno() {
+                return codigoExterno;
+            }
+
+            public void setCodigoExterno(String codigoExterno) {
+                this.codigoExterno = codigoExterno;
             }
         }
     }

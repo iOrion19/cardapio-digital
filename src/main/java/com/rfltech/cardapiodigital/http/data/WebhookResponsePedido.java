@@ -8,9 +8,12 @@ import java.time.LocalDate;
 public class WebhookResponsePedido {
 
     private String evento;
+
     private String modulo;
+
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate data;
+
     private PedidoResponseCardapioDigital pedido;
 
     public String getEvento() {

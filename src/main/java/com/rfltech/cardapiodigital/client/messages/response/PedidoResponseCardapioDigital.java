@@ -13,34 +13,51 @@ import java.util.List;
 public class PedidoResponseCardapioDigital {
 
     private Long ref;
+
     private String obs;
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonProperty("created_at")
     private LocalDateTime createdAt;
+
     @JsonProperty("total_com_descontos")
     private BigDecimal totalComDesconto;
+
     @JsonProperty("total")
     private BigDecimal valorTotal;
+
     private String troco;
+
+    @JsonProperty("id_meio_de_pagamento")
+    private String idMeioPagamento;
+
     @JsonProperty("meio_de_pagamento")
     private String meioPagamento;
+
     @JsonProperty("valor_desconto")
     private BigDecimal valorDesconto;
+
     @JsonProperty("valor_entrega")
     private BigDecimal valorTaxaEntrega;
+
     private Integer delivery;
+
     private List<ItemCardapioDigital> itens;
+
     private UsuarioCardapioDigital usuario;
+
     @JsonProperty("mensagem_no_cartao")
     private MensagemCartao mensagem;
+
     @JsonProperty("cpf_cnpj")
     private String cpfCnpj;
+
     @JsonProperty("codigo_desconto")
     private String codigoDesconto;
+
     @JsonProperty("meios_de_pagamento")
     private MeiosPagamento pagamentos;
+
     @JsonProperty("endereco_de_entrega")
     private EnderecoEntregaCardapioDigital endereco;
 
@@ -69,6 +86,10 @@ public class PedidoResponseCardapioDigital {
 
     public void setMensagem(MensagemCartao mensagem) {
         this.mensagem = mensagem;
+    }
+
+    public String getIdMeioPagamento() {
+        return idMeioPagamento;
     }
 
     public String getMeioPagamento() {
