@@ -1,6 +1,6 @@
 cardapio-digital:
   host: 'https://api.iorion19.app/api'
-  token: '64e36be22f4e0'
+  token: ${cardapio-digital.token}
 
 sischef:
   host: 'https://sistema.sischef.com/api-v2/webhook/integracao/OT'
