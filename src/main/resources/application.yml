@@ -4,13 +4,13 @@ cardapio-digital:
 
 sischef:
   host: 'https://sistema.sischef.com/api-v2/webhook/integracao/OT'
-  token: '2904cd7f-e24c-43a1-a58a-ed339d12efcf'
+  token: 'f2d23d19-d33b-82d0-a487-6b381f4ecfd9'
 
 spring:
   datasource:
-    url: jdbc:mysql://${RDS.HOST}/${RDS.DBNAME}
-    username: ${RDS.USERNAME}
-    password: ${RDS.PASSWORD}
+    url: jdbc:mysql://localhost:3306/cardapio_digital
+    username: root
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
