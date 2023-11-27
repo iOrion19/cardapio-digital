@@ -42,6 +42,10 @@ public enum MeioPagamentoEnum {
                 .orElse("");
     }
 
+    public static boolean pagoOnline(String codigoPagamento) {
+        return ID_51.getIdCardapio().equals(codigoPagamento);
+    }
+
     public String getCodigoExterno() {
         return codigoExterno;
     }

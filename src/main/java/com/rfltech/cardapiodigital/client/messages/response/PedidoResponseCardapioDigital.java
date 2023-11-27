@@ -40,6 +40,9 @@ public class PedidoResponseCardapioDigital {
     @JsonProperty("valor_entrega")
     private BigDecimal valorTaxaEntrega;
 
+    @JsonProperty("obs_adicional")
+    private String obsAdicional;
+
     private Integer delivery;
 
     private List<ItemCardapioDigital> itens;
@@ -126,6 +129,14 @@ public class PedidoResponseCardapioDigital {
 
     public void setValorTaxaEntrega(BigDecimal valorTaxaEntrega) {
         this.valorTaxaEntrega = valorTaxaEntrega;
+    }
+
+    public String getObsAdicional() {
+        return obsAdicional;
+    }
+
+    public void setObsAdicional(String obsAdicional) {
+        this.obsAdicional = obsAdicional;
     }
 
     public void setUsuario(UsuarioCardapioDigital usuario) {

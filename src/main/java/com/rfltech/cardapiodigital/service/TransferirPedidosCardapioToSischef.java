@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rfltech.cardapiodigital.client.CardapioDigitalClient;
 import com.rfltech.cardapiodigital.client.SischefClient;
 import com.rfltech.cardapiodigital.client.messages.requests.NovoPedidoSischef;
+import com.rfltech.cardapiodigital.client.messages.requests.NovoPedidoSischef.PessoaSischef;
+import com.rfltech.cardapiodigital.client.messages.response.ItemCardapioDigital;
 import com.rfltech.cardapiodigital.client.messages.response.PedidoResponseCardapioDigital;
 import com.rfltech.cardapiodigital.enums.MeioPagamentoEnum;
 import com.rfltech.cardapiodigital.mapper.CardapioSischefMapper;
@@ -22,7 +24,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Service
 public class TransferirPedidosCardapioToSischef {
@@ -43,31 +44,53 @@ public class TransferirPedidosCardapioToSischef {
     }
 
     public void integrarPedidoToSischef(PedidoResponseCardapioDigital pedido) throws JsonProcessingException {
-        NovoPedidoSischef sischefOrder = this.mapper.toSischefOrder(pedido);
-        this.atualizarDescricao(pedido, sischefOrder);
-        this.atualizarPagamentoOnline(pedido, sischefOrder);
-        this.calcularValorTotal(sischefOrder);
-        sischefOrder.setPessoa(this.mapper.toSischefPessoa(pedido.getUsuario(), pedido.getEndereco()));
-        ResponseEntity<String> stringResponseEntity = this.sischefClient.criarPedido(sischefOrder);
+        atualizarDescricaoResgaste(pedido);
+
+        NovoPedidoSischef sischefOrder = mapper.toSischefOrder(pedido);
+
+        atualizarDescricao(pedido, sischefOrder);
+        atualizarPagamentoOnline(pedido, sischefOrder);
+
+        calcularValorTotal(sischefOrder);
+        atualizarPessoa(sischefOrder, pedido);
+
+        sischefOrder.setValorDesconto(obterValorDesconto(pedido));
+
+        ResponseEntity<String> stringResponseEntity = sischefClient.criarPedido(sischefOrder);
+        exibirLog(sischefOrder, stringResponseEntity);
+        PedidoStatus pedidoStatus = new PedidoStatus(pedido.getRef(),
+                StatusEnum.PENDENTE.name(), extrairIdUnicoIntegracao(stringResponseEntity.getBody()));
+
+        repository.save(pedidoStatus);
+    }
+
+    private void exibirLog(NovoPedidoSischef sischefOrder, ResponseEntity<String> stringResponseEntity) throws JsonProcessingException {
         logger.info("=========== REQUEST ==================");
         logger.info(this.objectMapper.writeValueAsString(sischefOrder));
         logger.info("=========== FIM REQUEST ==================");
         logger.info(stringResponseEntity.getBody());
-        PedidoStatus pedidoStatus = new PedidoStatus(pedido.getRef(), StatusEnum.PENDENTE.name(), this.extrairIdUnicoIntegracao((String) stringResponseEntity.getBody()));
-        this.repository.save(pedidoStatus);
     }
 
-    private void atualizarResgastes(PedidoResponseCardapioDigital cardapioDigitalOrder) {
-        cardapioDigitalOrder.getItens().forEach((itemCardapio) -> {
+    private void atualizarPessoa(NovoPedidoSischef sischefOrder, PedidoResponseCardapioDigital pedido) {
+        PessoaSischef sischefPessoa = mapper.toSischefPessoa(pedido.getUsuario(), pedido.getEndereco());
+        sischefOrder.setPessoa(sischefPessoa);
+    }
+
+    private void atualizarDescricaoResgaste(PedidoResponseCardapioDigital cardapioDigitalOrder) {
+        List<ItemCardapioDigital> itens = cardapioDigitalOrder.getItens();
+
+        for (ItemCardapioDigital itemCardapio : itens) {
             if (itemCardapio.isResgatado()) {
                 itemCardapio.setNome(itemCardapio.getNome() + " (Resgatado)");
-                List<BigDecimal> itensCardapio = (List) itemCardapio.getComplementos().stream().map((x) -> {
-                    return x.getValor();
-                }).collect(Collectors.toList());
-                cardapioDigitalOrder.setValorDesconto(cardapioDigitalOrder.getValorDesconto().add(itemCardapio.getValor()).add((BigDecimal) itensCardapio.stream().reduce(BigDecimal.ZERO, BigDecimal::add)));
             }
+        }
+    }
 
-        });
+    private BigDecimal obterValorDesconto(PedidoResponseCardapioDigital pedido) {
+        List<ItemCardapioDigital> itens = pedido.getItens();
+
+        return itens.stream().filter(ItemCardapioDigital::isResgatado)
+                .map(ItemCardapioDigital::getValor).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     private Long extrairIdUnicoIntegracao(String response) {
@@ -94,15 +117,23 @@ public class TransferirPedidosCardapioToSischef {
     private void atualizarDescricao(PedidoResponseCardapioDigital response, NovoPedidoSischef sischefOrder) {
         StringBuilder descricao = new StringBuilder();
         if (StringUtils.hasText(response.getObs())) {
-            descricao.append(response.getObs() + " ");
+            descricao.append(response.getObs() + "\n");
         }
 
         if (StringUtils.hasText(response.getCpfCnpj())) {
-            descricao.append("Nota fiscal: " + response.getCpfCnpj());
+            descricao.append("Nota fiscal: " + response.getCpfCnpj().concat("\n"));
         }
 
         if (StringUtils.hasText(response.getCodigoDesconto())) {
-            descricao.append("\n Código desconto: " + response.getCodigoDesconto());
+            descricao.append("Código desconto: " + response.getCodigoDesconto().concat("\n"));
+        }
+
+        if (StringUtils.hasText(response.getObsAdicional())) {
+            descricao.append(response.getObsAdicional().concat("\n"));
+        }
+
+        if (MeioPagamentoEnum.pagoOnline(response.getIdMeioPagamento())) {
+            descricao.append("Pago online. Não cobrar o cliente.".concat("\n"));
         }
 
         if (Objects.nonNull(response.getMensagem()) && Objects.nonNull(response.getMensagem().getCampos())) {
