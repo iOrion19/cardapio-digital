@@ -44,6 +44,7 @@ public class TransferirPedidosCardapioToSischef {
     }
 
     public void integrarPedidoToSischef(PedidoResponseCardapioDigital pedido) throws JsonProcessingException {
+        atualizarValorComplemento(pedido);
         atualizarDescricaoResgaste(pedido);
 
         NovoPedidoSischef sischefOrder = mapper.toSischefOrder(pedido);
@@ -53,8 +54,7 @@ public class TransferirPedidosCardapioToSischef {
 
         calcularValorTotal(sischefOrder);
         atualizarPessoa(sischefOrder, pedido);
-
-        sischefOrder.setValorDesconto(obterValorDesconto(pedido));
+        atualizaValorDesconto(pedido, sischefOrder);
 
         ResponseEntity<String> stringResponseEntity = sischefClient.criarPedido(sischefOrder);
         exibirLog(sischefOrder, stringResponseEntity);
@@ -62,6 +62,23 @@ public class TransferirPedidosCardapioToSischef {
                 StatusEnum.PENDENTE.name(), extrairIdUnicoIntegracao(stringResponseEntity.getBody()));
 
         repository.save(pedidoStatus);
+    }
+
+    private void atualizarValorComplemento(PedidoResponseCardapioDigital pedido) {
+        for (ItemCardapioDigital item : pedido.getItens()) {
+            for (ItemCardapioDigital complemento : item.getComplementos()) {
+                complemento.setValor(complemento.getValor().multiply(new BigDecimal(complemento.getQuantidade())));
+            }
+        }
+    }
+
+    private void atualizaValorDesconto(PedidoResponseCardapioDigital pedido,
+                                       NovoPedidoSischef sischefOrder) {
+
+        BigDecimal valorTotalDesconto = pedido.getItens().stream().filter(ItemCardapioDigital::isResgatado)
+                .map(ItemCardapioDigital::getValor).reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        sischefOrder.setValorDesconto(valorTotalDesconto);
     }
 
     private void exibirLog(NovoPedidoSischef sischefOrder, ResponseEntity<String> stringResponseEntity) throws JsonProcessingException {
