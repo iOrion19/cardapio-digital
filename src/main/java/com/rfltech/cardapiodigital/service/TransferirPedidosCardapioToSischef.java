@@ -75,10 +75,10 @@ public class TransferirPedidosCardapioToSischef {
     private void atualizaValorDesconto(PedidoResponseCardapioDigital pedido,
                                        NovoPedidoSischef sischefOrder) {
 
-        BigDecimal valorTotalDesconto = pedido.getItens().stream().filter(ItemCardapioDigital::isResgatado)
+        BigDecimal valorDescontoResgatado = pedido.getItens().stream().filter(ItemCardapioDigital::isResgatado)
                 .map(ItemCardapioDigital::getValor).reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        sischefOrder.setValorDesconto(valorTotalDesconto);
+        sischefOrder.setValorDesconto(sischefOrder.getValorDesconto().add(valorDescontoResgatado));
     }
 
     private void exibirLog(NovoPedidoSischef sischefOrder, ResponseEntity<String> stringResponseEntity) throws JsonProcessingException {
