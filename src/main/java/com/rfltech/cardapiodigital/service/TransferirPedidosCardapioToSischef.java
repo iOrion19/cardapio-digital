@@ -122,11 +122,10 @@ public class TransferirPedidosCardapioToSischef {
     }
 
     private void calcularValorTotal(NovoPedidoSischef sischefOrder) {
-        BigDecimal valorTotal = BigDecimal.ZERO;
         sischefOrder.getItens().forEach((item) -> {
             item.setValorTotal(item.getValorTotal().multiply(BigDecimal.valueOf(item.getQuantidade())));
             item.getSubItens().stream().forEach((subItem) -> {
-                subItem.setValorTotal(subItem.getValorTotal().multiply(BigDecimal.valueOf(item.getQuantidade())));
+                subItem.setValorTotal(subItem.getValorTotal().multiply(BigDecimal.valueOf(subItem.getQuantidade())));
             });
         });
     }
