@@ -1,8 +1,5 @@
 package com.rfltech.cardapiodigital;
 
-import com.rfltech.cardapiodigital.client.DeliveryMuchClient;
-import com.rfltech.cardapiodigital.client.messages.requests.DeliveryMuchAuthRequest;
-import com.rfltech.cardapiodigital.client.messages.response.DeliveryMuchAuthResponse;
 import com.rfltech.cardapiodigital.config.properties.DeliveryMuchProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -18,9 +15,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class CardapioDigitalApplication {
 
     @Autowired
-    private DeliveryMuchClient deliveryMuchClient;
-
-    @Autowired
     private DeliveryMuchProperties deliveryMuchProperties;
 
     public static void main(String[] args) {
@@ -29,14 +23,6 @@ public class CardapioDigitalApplication {
 
     @Bean
     public CommandLineRunner commandLineRunner() {
-        DeliveryMuchAuthRequest request = DeliveryMuchAuthRequest.builder()
-                .clientSecret(deliveryMuchProperties.getAutenticacao().getClientSecret())
-                .clientId(deliveryMuchProperties.getAutenticacao().getClientId())
-                .userName(deliveryMuchProperties.getAutenticacao().getUserName())
-                .password(deliveryMuchProperties.getAutenticacao().getPassWord())
-                .grantType(deliveryMuchProperties.getAutenticacao().getGrantType()).build();
-
-        DeliveryMuchAuthResponse autenticar = deliveryMuchClient.autenticar(request);
-        return args -> System.out.println(autenticar);
+        return args -> System.out.println(deliveryMuchProperties.getAutenticacao().getGrantType());
     }
 }
