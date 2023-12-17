@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class TransferirPedidosCardapioToSischef {
@@ -75,8 +76,23 @@ public class TransferirPedidosCardapioToSischef {
     private void atualizaValorDesconto(PedidoResponseCardapioDigital pedido,
                                        NovoPedidoSischef sischefOrder) {
 
-        BigDecimal valorDescontoResgatado = pedido.getItens().stream().filter(ItemCardapioDigital::isResgatado)
-                .map(ItemCardapioDigital::getValor).reduce(BigDecimal.ZERO, BigDecimal::add);
+        List<ItemCardapioDigital> resgatados = pedido.getItens().stream().filter(ItemCardapioDigital::isResgatado)
+                .collect(Collectors.toList());
+
+        BigDecimal valorDescontoResgatado = resgatados.stream().map(ItemCardapioDigital::getValor)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        for (ItemCardapioDigital resgatado : resgatados) {
+
+            List<ItemCardapioDigital> complementos = resgatado.getComplementos();
+            if (Objects.nonNull(complementos)) {
+
+                BigDecimal valorDescontoDosComplementos = complementos.stream().map(
+                        ItemCardapioDigital::getValor).reduce(BigDecimal.ZERO, BigDecimal::add);
+
+                valorDescontoResgatado = valorDescontoResgatado.add(valorDescontoDosComplementos);
+            }
+        }
 
         sischefOrder.setValorDesconto(sischefOrder.getValorDesconto().add(valorDescontoResgatado));
     }
@@ -123,10 +139,15 @@ public class TransferirPedidosCardapioToSischef {
 
     private void calcularValorTotal(NovoPedidoSischef sischefOrder) {
         sischefOrder.getItens().forEach((item) -> {
-            item.setValorTotal(item.getValorTotal().multiply(BigDecimal.valueOf(item.getQuantidade())));
             item.getSubItens().stream().forEach((subItem) -> {
                 subItem.setValorTotal(subItem.getValorTotal().multiply(BigDecimal.valueOf(subItem.getQuantidade())));
             });
+
+            BigDecimal valorSubItens = item.getSubItens().stream().map(NovoPedidoSischef.ItemSischef.SubItemPedido::getValorTotal)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+            item.setValorTotal(item.getValorTotal().add(valorSubItens));
+            item.setValorTotal(item.getValorTotal().multiply(BigDecimal.valueOf(item.getQuantidade())));
         });
     }
 
