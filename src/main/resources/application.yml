@@ -6,6 +6,15 @@ sischef:
   host: 'https://sistema.sischef.com/api-v2/webhook/integracao/OT'
   token: '2904cd7f-e24c-43a1-a58a-ed339d12efcf'
 
+delivery-much:
+  autenticacao:
+    host: 'https://devmuch-api.auth0.com/oauth/token'
+    client_id: 'SDOMDenG3WHgWVDHrmpmOScIbVyUPAai'
+    client_secret: 'mp5RXKdLlSyjw2OX08PQ3yiBX8J2S7J2xZ2BMrnu0F_0qs6_VIBuNui3MExi3fJm'
+    username: 'iorion19'
+    password: '5fUQvsrxf09y'
+    grant_type: 'password'
+
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/cardapio_digital
