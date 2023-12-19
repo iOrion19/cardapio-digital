@@ -142,6 +142,7 @@ public class TransferirPedidosCardapioToSischef {
             item.setValorTotal(item.getValorTotal().multiply(BigDecimal.valueOf(item.getQuantidade())));
             item.getSubItens().stream().forEach((subItem) -> {
                 subItem.setValorTotal(subItem.getValorTotal().multiply(BigDecimal.valueOf(item.getQuantidade())));
+                subItem.setQuantidade(item.getQuantidade());
             });
         });
     }
