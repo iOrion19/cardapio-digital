@@ -1,4 +1,4 @@
-package com.rfltech.cardapiodigital.client.messages.response;
+package com.rfltech.cardapiodigital.client.messages.response.deliverymuch;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

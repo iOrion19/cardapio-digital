@@ -14,6 +14,8 @@ delivery-much:
     username: 'iorion19'
     password: '5fUQvsrxf09y'
     grant_type: 'password'
+  api:
+    host: 'https://api.devmuch.io'
 
 spring:
   datasource:

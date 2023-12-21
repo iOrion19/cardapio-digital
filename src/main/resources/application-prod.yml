@@ -14,6 +14,8 @@ delivery-much:
     username: ${delivery-much.autenticacao.username}
     password: ${delivery-much.autenticacao.password}
     grant_type: ${delivery-much.autenticacao.grant_type}
+  api:
+    host: ${delivery-much.api.host}
 
 spring:
   datasource:
