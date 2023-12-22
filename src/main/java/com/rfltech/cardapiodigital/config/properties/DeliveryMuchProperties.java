@@ -12,6 +12,8 @@ public class DeliveryMuchProperties {
 
     private Autenticacao autenticacao;
 
+    private Api api;
+
     @Data
     public static class Autenticacao {
 
@@ -31,5 +33,11 @@ public class DeliveryMuchProperties {
 
         @JsonProperty("grant_type")
         private String grantType;
+    }
+
+    @Data
+    public static class Api {
+
+        private String provedor;
     }
 }

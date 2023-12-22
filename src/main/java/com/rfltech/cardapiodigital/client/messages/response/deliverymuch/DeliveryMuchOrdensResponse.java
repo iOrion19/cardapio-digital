@@ -36,5 +36,53 @@ public class DeliveryMuchOrdensResponse {
 
         @JsonProperty("description")
         private String descricao;
+
+        @JsonProperty("quantity")
+        private int quantidade;
+
+        private int id;
+
+        @JsonProperty("id_erp")
+        private String idErp;
+
+        private List<Groups> groups;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Data
+    public static class Groups {
+
+        @JsonProperty("subgroups")
+        private List<SubGroups> subGroups;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Data
+    public static class SubGroups {
+
+        @JsonProperty("items")
+        private List<Item> itens;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Data
+    public static class Item {
+
+        @JsonProperty("name")
+        private String nome;
+
+        @JsonProperty("price")
+        private Double preco;
+
+        @JsonProperty("description")
+        private String descricao;
+
+        private int id;
+
+        @JsonProperty("id_erp")
+        private String idErp;
     }
 }

@@ -26,6 +26,5 @@ public class CardapioDigitalFeignConfig {
             requestTemplate.header("Content-Type", "application/json");
             requestTemplate.header(AUTHORIZATION_HEADER, cardapioDigitalProperties.getToken());
         };
-
     }
 }

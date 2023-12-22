@@ -12,7 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -35,20 +36,8 @@ public class DeliveryMuchScheduled {
         DeliveryMuchAuthResponse authResponse = deliveryMuchAuthClient.autenticar(deliveryMuchAuthRequest());
         DeliveryMuchOrdensResponse apiResponse = deliveryMuchClient.ordens("Bearer ".concat(authResponse.getTokenAcesso()));
 
-        cardapioDigitalClient.criarPedido(criarPedidoCardapio(apiResponse));
-    }
-
-    public CriarPedidoCardapio criarPedidoCardapio(DeliveryMuchOrdensResponse apiResponse) {
-        CriarPedidoCardapio criarPedidoCardapio = new CriarPedidoCardapio();
-
-        CriarPedidoCardapio.Dados dados = new CriarPedidoCardapio.Dados();
-        CriarPedidoCardapio.Pedido pedido = new CriarPedidoCardapio.Pedido();
-        CriarPedidoCardapio.Item item = new CriarPedidoCardapio.Item();
-        item.setNome(apiResponse.getDocs().get(0).getProdutos().get(0).getNome());
-        pedido.setItens(Arrays.asList(new CriarPedidoCardapio.Item()));
-
-        dados.setPedido(pedido);
-        return criarPedidoCardapio;
+        String orderId = cardapioDigitalClient.criarPedido(criarPedidoCardapio(apiResponse));
+        System.out.println(orderId);
     }
 
     public DeliveryMuchAuthRequest deliveryMuchAuthRequest() {
@@ -58,5 +47,64 @@ public class DeliveryMuchScheduled {
                 .userName(deliveryMuchProperties.getAutenticacao().getUserName())
                 .password(deliveryMuchProperties.getAutenticacao().getPassWord())
                 .grantType(deliveryMuchProperties.getAutenticacao().getGrantType()).build();
+    }
+
+
+    public CriarPedidoCardapio criarPedidoCardapio(DeliveryMuchOrdensResponse apiResponse) {
+        CriarPedidoCardapio criarPedidoCardapio = new CriarPedidoCardapio();
+        criarPedidoCardapio.setDados(new CriarPedidoCardapio.Dados());
+        CriarPedidoCardapio.Pedido pedido = new CriarPedidoCardapio.Pedido();
+
+        for (DeliveryMuchOrdensResponse.Docs documento : apiResponse.getDocs()) {
+
+            for (DeliveryMuchOrdensResponse.Produtos produto : documento.getProdutos()) {
+
+                List<CriarPedidoCardapio.Complemento> complementos = new ArrayList<>();
+
+                for (DeliveryMuchOrdensResponse.Groups group : produto.getGroups()) {
+
+                    for (DeliveryMuchOrdensResponse.SubGroups subGrupo : group.getSubGroups()) {
+
+                        for (DeliveryMuchOrdensResponse.Item item : subGrupo.getItens()) {
+                            complementos.add(criarComplemento(item));
+                        }
+                    }
+                    break;
+                }
+
+                CriarPedidoCardapio.Item item = criarCardapioItem(produto);
+                item.setComplementos(complementos);
+                pedido.setItens(List.of(item));
+
+                break;
+            }
+        }
+
+        criarPedidoCardapio.getDados().setPedido(pedido);
+
+        return criarPedidoCardapio;
+    }
+
+    private static CriarPedidoCardapio.Item criarCardapioItem(DeliveryMuchOrdensResponse.Produtos produto) {
+        CriarPedidoCardapio.Item cardapioItem = new CriarPedidoCardapio.Item();
+
+        cardapioItem.setNome(produto.getNome());
+        cardapioItem.setQuantidade(produto.getQuantidade());
+        cardapioItem.setValor(produto.getValorTotal());
+        cardapioItem.setDescricao(produto.getDescricao());
+        cardapioItem.setIdExterno(String.valueOf(produto.getId()));
+        cardapioItem.setIdAlloy(produto.getIdErp());
+
+        return cardapioItem;
+    }
+
+    private static CriarPedidoCardapio.Complemento criarComplemento(DeliveryMuchOrdensResponse.Item item) {
+        CriarPedidoCardapio.Complemento complemento = new CriarPedidoCardapio.Complemento();
+        complemento.setNome(item.getNome());
+        complemento.setValor(item.getPreco());
+        complemento.setDescricao(item.getDescricao());
+        complemento.setIdExterno(String.valueOf(item.getId()));
+        complemento.setIdAlloy(item.getIdErp());
+        return complemento;
     }
 }

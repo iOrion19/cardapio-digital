@@ -16,6 +16,7 @@ delivery-much:
     grant_type: 'password'
   api:
     host: 'https://api.devmuch.io'
+    provedor: '63861e4f2c7ng'
 
 spring:
   datasource:

@@ -34,5 +34,5 @@ public interface CardapioDigitalClient {
     ResponseEntity<String> cancelOrder(@RequestParam(name = "pedido_ref") String var1);
 
     @PostMapping(value = "/delivery/createOrder")
-    void criarPedido(@RequestBody CriarPedidoCardapio criarPedidoCardapio);
+    String criarPedido(@RequestBody CriarPedidoCardapio criarPedidoCardapio);
 }
