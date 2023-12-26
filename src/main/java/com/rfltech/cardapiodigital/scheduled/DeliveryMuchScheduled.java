@@ -60,6 +60,9 @@ public class DeliveryMuchScheduled {
 
         for (DeliveryMuchOrdensResponse.Docs documento : apiResponse.getDocs()) {
 
+            criarPedidoCardapio.getDados().setEnderecoEntrega(
+                    criarEnderecoEntrega(documento.getDeliveryForm().getEndereco()));
+
             for (DeliveryMuchOrdensResponse.Produtos produto : documento.getProdutos()) {
 
                 List<CriarPedidoCardapio.Complemento> complementos = new ArrayList<>();
@@ -86,6 +89,24 @@ public class DeliveryMuchScheduled {
         criarPedidoCardapio.getDados().setPedido(pedido);
 
         return criarPedidoCardapio;
+    }
+
+    private CriarPedidoCardapio.EnderecoEntrega criarEnderecoEntrega(DeliveryMuchOrdensResponse.Endereco endereco) {
+        CriarPedidoCardapio.EnderecoEntrega enderecoEntrega = new CriarPedidoCardapio.EnderecoEntrega();
+
+        enderecoEntrega.setLogradouro(endereco.getRua());
+        enderecoEntrega.setNumero(endereco.getNumero());
+        enderecoEntrega.setBairro(endereco.getBairro());
+        enderecoEntrega.setCidade(endereco.getCidade());
+        enderecoEntrega.setUf(endereco.getUf());
+        enderecoEntrega.setCep(endereco.getCep());
+        enderecoEntrega.setComplemento(endereco.getComplemento());
+        enderecoEntrega.setReferencia(endereco.getReferencia());
+
+        String coordenadas = endereco.getLatitude().concat(", ").concat(endereco.getLongitude());
+        enderecoEntrega.setCoordenadas(coordenadas);
+
+        return enderecoEntrega;
     }
 
     private static CriarPedidoCardapio.Item criarCardapioItem(DeliveryMuchOrdensResponse.Produtos produto) {

@@ -21,6 +21,9 @@ public class DeliveryMuchOrdensResponse {
 
         @JsonProperty("products")
         private List<Produtos> produtos;
+
+        @JsonProperty("delivery_form")
+        private DeliveryForm deliveryForm;
     }
 
     @AllArgsConstructor
@@ -46,6 +49,51 @@ public class DeliveryMuchOrdensResponse {
         private String idErp;
 
         private List<Groups> groups;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Data
+    public static class DeliveryForm {
+
+        @JsonProperty("address")
+        private Endereco endereco;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Data
+    public static class Endereco {
+
+        @JsonProperty("street")
+        private String rua;
+
+        @JsonProperty("number")
+        private String numero;
+
+        @JsonProperty("district")
+        private String bairro;
+
+        @JsonProperty("city")
+        private String cidade;
+
+        @JsonProperty("state_acronym")
+        private String uf;
+
+        @JsonProperty("postal_code")
+        private String cep;
+
+        @JsonProperty("complement")
+        private String complemento;
+
+        @JsonProperty("reference")
+        private String referencia;
+
+        @JsonProperty("lat")
+        private String latitude;
+
+        @JsonProperty("lng")
+        private String longitude;
     }
 
     @AllArgsConstructor

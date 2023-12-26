@@ -31,7 +31,8 @@ public class CriarPedidoCardapio {
 
         private ValoresEntrega valores_entrega;
 
-        private EnderecoEntrega endereco_de_entrega;
+        @JsonProperty("endereco_de_entrega")
+        private EnderecoEntrega enderecoEntrega;
 
         private Usuario usuario;
     }
@@ -147,7 +148,8 @@ public class CriarPedidoCardapio {
 
         private String uf;
 
-        private String coordenadas_cliente;
+        @JsonProperty("coordenadas_cliente")
+        private String coordenadas;
     }
 
     @AllArgsConstructor
