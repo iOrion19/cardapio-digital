@@ -39,5 +39,8 @@ public class DeliveryMuchProperties {
     public static class Api {
 
         private String provedor;
+
+        @JsonProperty("id_externo")
+        private String idExterno;
     }
 }

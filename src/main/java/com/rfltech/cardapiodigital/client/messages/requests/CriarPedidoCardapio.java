@@ -1,5 +1,6 @@
 package com.rfltech.cardapiodigital.client.messages.requests;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +15,8 @@ public class CriarPedidoCardapio {
 
     private String provedor;
 
-    private String id_externo;
+    @JsonProperty("id_externo")
+    private String idExterno;
 
     private Dados dados;
 
@@ -75,8 +77,9 @@ public class CriarPedidoCardapio {
 
         private String descricao;
 
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         @JsonProperty("valor_desconto")
-        private double valorDesconto;
+        private Double valorDesconto;
 
         private List<Complemento> complementos;
     }

@@ -52,6 +52,9 @@ public class DeliveryMuchScheduled {
 
     public CriarPedidoCardapio criarPedidoCardapio(DeliveryMuchOrdensResponse apiResponse) {
         CriarPedidoCardapio criarPedidoCardapio = new CriarPedidoCardapio();
+
+        criarPedidoCardapio.setProvedor(deliveryMuchProperties.getApi().getProvedor());
+        criarPedidoCardapio.setIdExterno(deliveryMuchProperties.getApi().getIdExterno());
         criarPedidoCardapio.setDados(new CriarPedidoCardapio.Dados());
         CriarPedidoCardapio.Pedido pedido = new CriarPedidoCardapio.Pedido();
 
@@ -93,7 +96,7 @@ public class DeliveryMuchScheduled {
         cardapioItem.setValor(produto.getValorTotal());
         cardapioItem.setDescricao(produto.getDescricao());
         cardapioItem.setIdExterno(String.valueOf(produto.getId()));
-        cardapioItem.setIdAlloy(produto.getIdErp());
+        cardapioItem.setIdAlloy("");
 
         return cardapioItem;
     }
@@ -104,7 +107,8 @@ public class DeliveryMuchScheduled {
         complemento.setValor(item.getPreco());
         complemento.setDescricao(item.getDescricao());
         complemento.setIdExterno(String.valueOf(item.getId()));
-        complemento.setIdAlloy(item.getIdErp());
+        complemento.setIdAlloy("");
+        complemento.setQuantidade(1);
         return complemento;
     }
 }
