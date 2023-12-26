@@ -167,9 +167,11 @@ public class CriarPedidoCardapio {
 
         private String telefone;
 
-        private String telefone_codigo_pais;
+        @JsonProperty("telefone_codigo_pais")
+        private String telefoneCodigoPais;
 
-        private String data_nascimento;
+        @JsonProperty("data_nascimento")
+        private String dataNascimento;
 
         private String genero;
     }

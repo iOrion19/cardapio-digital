@@ -63,6 +63,8 @@ public class DeliveryMuchScheduled {
             criarPedidoCardapio.getDados().setEnderecoEntrega(
                     criarEnderecoEntrega(documento.getDeliveryForm().getEndereco()));
 
+            criarPedidoCardapio.getDados().setUsuario(criarUsuario(documento.getUsuario()));
+
             for (DeliveryMuchOrdensResponse.Produtos produto : documento.getProdutos()) {
 
                 List<CriarPedidoCardapio.Complemento> complementos = new ArrayList<>();
@@ -89,6 +91,21 @@ public class DeliveryMuchScheduled {
         criarPedidoCardapio.getDados().setPedido(pedido);
 
         return criarPedidoCardapio;
+    }
+
+    private CriarPedidoCardapio.Usuario criarUsuario(DeliveryMuchOrdensResponse.Usuario usuario) {
+        CriarPedidoCardapio.Usuario cardapioUsuario = new CriarPedidoCardapio.Usuario();
+
+        cardapioUsuario.setNome(usuario.getNome());
+        cardapioUsuario.setTelefone(usuario.getTelefone());
+
+//        cardapioUsuario.setEmail("");
+//        cardapioUsuario.setCpf("");
+//        cardapioUsuario.setGenero("");
+//        cardapioUsuario.setDataNascimento("");
+//        cardapioUsuario.setTelefoneCodigoPais("");
+
+        return cardapioUsuario;
     }
 
     private CriarPedidoCardapio.EnderecoEntrega criarEnderecoEntrega(DeliveryMuchOrdensResponse.Endereco endereco) {

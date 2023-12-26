@@ -24,6 +24,9 @@ public class DeliveryMuchOrdensResponse {
 
         @JsonProperty("delivery_form")
         private DeliveryForm deliveryForm;
+
+        @JsonProperty("consumer")
+        private Usuario usuario;
     }
 
     @AllArgsConstructor
@@ -58,6 +61,18 @@ public class DeliveryMuchOrdensResponse {
 
         @JsonProperty("address")
         private Endereco endereco;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Data
+    public static class Usuario {
+
+        @JsonProperty("name")
+        private String nome;
+
+        @JsonProperty("phone")
+        private String telefone;
     }
 
     @AllArgsConstructor
