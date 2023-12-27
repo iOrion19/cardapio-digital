@@ -111,11 +111,13 @@ public class CriarPedidoCardapio {
     @Data
     public static class Pagamento {
 
-        private int forma_de_pagamento;
+        @JsonProperty("forma_de_pagamento")
+        private int formaPagamento;
 
         private double total;
 
-        private double troco_para;
+        @JsonProperty("troco_para")
+        private double trocoPara;
     }
 
     @AllArgsConstructor

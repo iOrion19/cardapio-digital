@@ -36,8 +36,10 @@ public class DeliveryMuchScheduled {
         DeliveryMuchAuthResponse authResponse = deliveryMuchAuthClient.autenticar(deliveryMuchAuthRequest());
         DeliveryMuchOrdensResponse apiResponse = deliveryMuchClient.ordens("Bearer ".concat(authResponse.getTokenAcesso()));
 
-        String orderId = cardapioDigitalClient.criarPedido(criarPedidoCardapio(apiResponse));
-        System.out.println(orderId);
+        for (DeliveryMuchOrdensResponse.Docs documento : apiResponse.getDocs()) {
+            String responseCardapio = cardapioDigitalClient.criarPedido(criarPedidoCardapio(documento));
+            System.out.println(responseCardapio);
+        }
     }
 
     public DeliveryMuchAuthRequest deliveryMuchAuthRequest() {
@@ -50,46 +52,43 @@ public class DeliveryMuchScheduled {
     }
 
 
-    public CriarPedidoCardapio criarPedidoCardapio(DeliveryMuchOrdensResponse apiResponse) {
+    public CriarPedidoCardapio criarPedidoCardapio(DeliveryMuchOrdensResponse.Docs documento) {
         CriarPedidoCardapio criarPedidoCardapio = new CriarPedidoCardapio();
+        CriarPedidoCardapio.Pedido pedido = new CriarPedidoCardapio.Pedido();
 
         criarPedidoCardapio.setProvedor(deliveryMuchProperties.getApi().getProvedor());
         criarPedidoCardapio.setIdExterno(deliveryMuchProperties.getApi().getIdExterno());
+
         criarPedidoCardapio.setDados(new CriarPedidoCardapio.Dados());
-        CriarPedidoCardapio.Pedido pedido = new CriarPedidoCardapio.Pedido();
 
-        for (DeliveryMuchOrdensResponse.Docs documento : apiResponse.getDocs()) {
+        criarPedidoCardapio.getDados().setEnderecoEntrega(
+                criarEnderecoEntrega(documento.getDeliveryForm().getEndereco()));
 
-            criarPedidoCardapio.getDados().setEnderecoEntrega(
-                    criarEnderecoEntrega(documento.getDeliveryForm().getEndereco()));
+        criarPedidoCardapio.getDados().setUsuario(criarUsuario(documento.getUsuario()));
 
-            criarPedidoCardapio.getDados().setUsuario(criarUsuario(documento.getUsuario()));
+        CriarPedidoCardapio.Pagamento pagamento = criarFormaPagamentoCardapio(documento.getPagamento());
+        criarPedidoCardapio.getDados().setPagamento(List.of(pagamento));
 
-            String meioEntrega = documento.getDeliveryForm().getMetodoPagamento()
-                    .equalsIgnoreCase("pickup ") ? "retirada" : "delivery";
+        String metodoPagamento = documento.getDeliveryForm().getMetodoPagamento().toLowerCase();
+        pedido.setMeioEntrega(obterMeioEntregaCardapio(metodoPagamento));
 
-            pedido.setMeioEntrega(meioEntrega);
+        List<CriarPedidoCardapio.Item> itens = new ArrayList<>();
+        for (DeliveryMuchOrdensResponse.Produtos produto : documento.getProdutos()) {
 
-            for (DeliveryMuchOrdensResponse.Produtos produto : documento.getProdutos()) {
+            for (DeliveryMuchOrdensResponse.Groups group : produto.getGroups()) {
 
-                List<CriarPedidoCardapio.Complemento> complementos = new ArrayList<>();
+                for (DeliveryMuchOrdensResponse.SubGroups subGrupo : group.getSubGroups()) {
 
-                for (DeliveryMuchOrdensResponse.Groups group : produto.getGroups()) {
+                    List<CriarPedidoCardapio.Complemento> complementos = new ArrayList<>();
 
-                    for (DeliveryMuchOrdensResponse.SubGroups subGrupo : group.getSubGroups()) {
-
-                        for (DeliveryMuchOrdensResponse.Item item : subGrupo.getItens()) {
-                            complementos.add(criarComplemento(item));
-                        }
+                    for (DeliveryMuchOrdensResponse.Item item : subGrupo.getItens()) {
+                        complementos.add(criarComplemento(item));
                     }
-                    break;
+
+                    CriarPedidoCardapio.Item item = criarCardapioItem(produto);
+                    item.setComplementos(complementos);
+                    itens.add(item);
                 }
-
-                CriarPedidoCardapio.Item item = criarCardapioItem(produto);
-                item.setComplementos(complementos);
-                pedido.setItens(List.of(item));
-
-                break;
             }
         }
 
@@ -103,12 +102,6 @@ public class DeliveryMuchScheduled {
 
         cardapioUsuario.setNome(usuario.getNome());
         cardapioUsuario.setTelefone(usuario.getTelefone());
-
-//        cardapioUsuario.setEmail("");
-//        cardapioUsuario.setCpf("");
-//        cardapioUsuario.setGenero("");
-//        cardapioUsuario.setDataNascimento("");
-//        cardapioUsuario.setTelefoneCodigoPais("");
 
         return cardapioUsuario;
     }
@@ -152,6 +145,34 @@ public class DeliveryMuchScheduled {
         complemento.setIdExterno(String.valueOf(item.getId()));
         complemento.setIdAlloy("");
         complemento.setQuantidade(1);
+
         return complemento;
+    }
+
+    private int getFormaPagamentoCardapio(String formaPagamento) {
+        switch (formaPagamento.toLowerCase()) {
+            case "money":
+                return 6;
+            case "machine":
+                return 28;
+            case "online":
+                return 35;
+            default:
+                return 0;
+        }
+    }
+
+    private CriarPedidoCardapio.Pagamento criarFormaPagamentoCardapio(DeliveryMuchOrdensResponse.Pagamento pagamento) {
+        CriarPedidoCardapio.Pagamento pagamentoCardapio = new CriarPedidoCardapio.Pagamento();
+
+        String formaPagamento = pagamento.getPagamentoForma().getMetodo();
+        pagamentoCardapio.setFormaPagamento(getFormaPagamentoCardapio(formaPagamento));
+        pagamentoCardapio.setTotal(pagamento.getTotal());
+
+        return pagamentoCardapio;
+    }
+
+    private String obterMeioEntregaCardapio(String metodoPagamento) {
+        return metodoPagamento.equals("pickup") ? "retirada" : "delivery";
     }
 }

@@ -27,6 +27,9 @@ public class DeliveryMuchOrdensResponse {
 
         @JsonProperty("consumer")
         private Usuario usuario;
+
+        @JsonProperty("payment")
+        private Pagamento pagamento;
     }
 
     @AllArgsConstructor
@@ -76,6 +79,26 @@ public class DeliveryMuchOrdensResponse {
 
         @JsonProperty("phone")
         private String telefone;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Data
+    public static class Pagamento {
+
+        @JsonProperty("payment_form")
+        private PagamentoForma pagamentoForma;
+
+        private double total;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Data
+    public static class PagamentoForma {
+
+        @JsonProperty("method")
+        private String metodo;
     }
 
     @AllArgsConstructor
