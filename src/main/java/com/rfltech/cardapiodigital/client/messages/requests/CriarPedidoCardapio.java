@@ -46,7 +46,8 @@ public class CriarPedidoCardapio {
 
         private String data_agendamento;
 
-        private String meio_de_entrega;
+        @JsonProperty("meio_de_entrega")
+        private String meioEntrega;
 
         private String cpf_cnpj;
 

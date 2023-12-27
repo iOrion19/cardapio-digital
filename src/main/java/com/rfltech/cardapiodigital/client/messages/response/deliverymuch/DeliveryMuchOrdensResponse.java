@@ -61,6 +61,9 @@ public class DeliveryMuchOrdensResponse {
 
         @JsonProperty("address")
         private Endereco endereco;
+
+        @JsonProperty("method")
+        private String metodoPagamento;
     }
 
     @AllArgsConstructor

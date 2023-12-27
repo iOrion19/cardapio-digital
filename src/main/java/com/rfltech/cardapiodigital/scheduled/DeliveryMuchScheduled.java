@@ -65,6 +65,11 @@ public class DeliveryMuchScheduled {
 
             criarPedidoCardapio.getDados().setUsuario(criarUsuario(documento.getUsuario()));
 
+            String meioEntrega = documento.getDeliveryForm().getMetodoPagamento()
+                    .equalsIgnoreCase("pickup ") ? "retirada" : "delivery";
+
+            pedido.setMeioEntrega(meioEntrega);
+
             for (DeliveryMuchOrdensResponse.Produtos produto : documento.getProdutos()) {
 
                 List<CriarPedidoCardapio.Complemento> complementos = new ArrayList<>();
