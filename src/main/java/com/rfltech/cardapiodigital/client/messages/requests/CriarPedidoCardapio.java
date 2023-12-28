@@ -43,7 +43,8 @@ public class CriarPedidoCardapio {
     @Data
     public static class Pedido {
 
-        private String obs;
+        @JsonProperty("obs")
+        private String observacao;
 
         private String data_agendamento;
 
@@ -64,7 +65,8 @@ public class CriarPedidoCardapio {
     @Data
     public static class Item {
 
-        private String obs;
+        @JsonProperty("obs")
+        private String observacao;
 
         @JsonProperty("id_alloy")
         private String idAlloy;

@@ -1,5 +1,6 @@
 package com.rfltech.cardapiodigital.scheduled;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rfltech.cardapiodigital.client.CardapioDigitalClient;
 import com.rfltech.cardapiodigital.client.DeliveryMuchAuthClient;
 import com.rfltech.cardapiodigital.client.DeliveryMuchClient;
@@ -12,8 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -31,10 +35,16 @@ public class DeliveryMuchScheduled {
     @Autowired
     private DeliveryMuchProperties deliveryMuchProperties;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.SECONDS)
-    public void buscarOrdens() {
+    public void buscarOrdens() throws IOException {
         DeliveryMuchAuthResponse authResponse = deliveryMuchAuthClient.autenticar(deliveryMuchAuthRequest());
-        DeliveryMuchOrdensResponse apiResponse = deliveryMuchClient.ordens("Bearer ".concat(authResponse.getTokenAcesso()));
+        DeliveryMuchOrdensResponse apiResponse = objectMapper.readValue(new File("response.json"), DeliveryMuchOrdensResponse.class);
+
+        String token = "Bearer ".concat(authResponse.getTokenAcesso());
+        DeliveryMuchOrdensResponse apiResponse2 = deliveryMuchClient.ordens(token);
 
         for (DeliveryMuchOrdensResponse.Docs documento : apiResponse.getDocs()) {
             String responseCardapio = cardapioDigitalClient.criarPedido(criarPedidoCardapio(documento));
@@ -55,6 +65,8 @@ public class DeliveryMuchScheduled {
     public CriarPedidoCardapio criarPedidoCardapio(DeliveryMuchOrdensResponse.Docs documento) {
         CriarPedidoCardapio criarPedidoCardapio = new CriarPedidoCardapio();
         CriarPedidoCardapio.Pedido pedido = new CriarPedidoCardapio.Pedido();
+
+        pedido.setObservacao("Cupom: ".concat(documento.getPagamento().getCupom().getCodigo()));
 
         criarPedidoCardapio.setProvedor(deliveryMuchProperties.getApi().getProvedor());
         criarPedidoCardapio.setIdExterno(deliveryMuchProperties.getApi().getIdExterno());
@@ -78,7 +90,7 @@ public class DeliveryMuchScheduled {
 
         for (DeliveryMuchOrdensResponse.Produtos produto : documento.getProdutos()) {
 
-            CriarPedidoCardapio.Item itemCardapio = criarCardapioItem(produto);
+            CriarPedidoCardapio.Item itemCardapio = criarCardapioItem(produto, documento);
 
             List<CriarPedidoCardapio.Complemento> complementos = new ArrayList<>();
 
@@ -135,7 +147,8 @@ public class DeliveryMuchScheduled {
         return enderecoEntrega;
     }
 
-    private static CriarPedidoCardapio.Item criarCardapioItem(DeliveryMuchOrdensResponse.Produtos produto) {
+    private static CriarPedidoCardapio.Item criarCardapioItem(DeliveryMuchOrdensResponse.Produtos produto,
+                                                              DeliveryMuchOrdensResponse.Docs documento) {
         CriarPedidoCardapio.Item cardapioItem = new CriarPedidoCardapio.Item();
 
         cardapioItem.setNome(produto.getNome());
@@ -144,6 +157,16 @@ public class DeliveryMuchScheduled {
         cardapioItem.setDescricao(produto.getDescricao());
         cardapioItem.setIdExterno(String.valueOf(produto.getId()));
         cardapioItem.setIdAlloy("");
+        cardapioItem.setObservacao(produto.getComentario());
+
+        Double valorDescontoPedido = documento.getPagamento().getCupom().getDesconto();
+        Double descontoPorProduto = null;
+
+        if (Objects.nonNull(valorDescontoPedido)) {
+            descontoPorProduto = valorDescontoPedido / documento.getProdutos().size();
+        }
+
+        cardapioItem.setValorDesconto(descontoPorProduto);
 
         return cardapioItem;
     }

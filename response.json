@@ -1,0 +1,582 @@
+{
+    "docs": [
+        {
+            "consumer": {
+                "id": "3222af514bcc4ef8bdaf8536785603df",
+                "name": "Usuário teste",
+                "phone": null,
+                "orders_company": 2,
+                "orders_total": 10
+            },
+            "delivery_form": {
+                "address": {
+                    "id": "1000000",
+                    "street": "Rua Otávio Binato",
+                    "number": "83",
+                    "district": "Centro",
+                    "city": "Santa Maria",
+                    "state": "Rio Grande do Sul",
+                    "state_acronym": "RS",
+                    "complement": "Casa",
+                    "reference": "Referência",
+                    "postal_code": "00000-000",
+                    "lat": -38.43374,
+                    "lng": -70.07792
+                },
+                "method": "DELIVERY",
+                "estimated_time": 25
+            },
+            "status": "CANCELED",
+            "stage": "WAITING_COMPANY",
+            "products": [
+                {
+                    "id": 511955,
+                    "name": "03 - Monte o seu pastel grande",
+                    "id_erp": "3190",
+                    "total_price": 27.3,
+                    "description": "Monte o seu pastel, escolha até 5 sabores e complementos. \r\nTamanho aproximado de 20cm a 30cm x 11cm\r\nO tamanho varia dependendo da quantidade de sabores e recheio que você seleciona.\r\n",
+                    "image": "https://www.deliverymuch.com.br/media/5b44c107c22e3.png",
+                    "size_options": {
+                        "label": "",
+                        "size": {
+                            "id": 657908,
+                            "price": 8,
+                            "name": ""
+                        }
+                    },
+                    "quantity": 1,
+                    "comment": null,
+                    "groups": [
+                        {
+                            "id": 3535626,
+                            "name": "Sabores",
+                            "rule": "SUM",
+                            "subgroups": [
+                                {
+                                    "id": 589271,
+                                    "name": "Escolha os Sabores",
+                                    "items": [
+                                        {
+                                            "id": 4862870,
+                                            "name": "Frango Desfiado",
+                                            "description": "Porção de aproximadamente 70g",
+                                            "id_erp": "6003",
+                                            "price": 4.8
+                                        },
+                                        {
+                                            "id": 4862891,
+                                            "name": "Bacon",
+                                            "description": "Porção de aproximadamente 70g",
+                                            "id_erp": "1977",
+                                            "price": 4.8
+                                        },
+                                        {
+                                            "id": 4862897,
+                                            "name": "Calabresa",
+                                            "description": "Porção de aproximadamente 60g",
+                                            "id_erp": "9197",
+                                            "price": 4.2
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id": 589269,
+                            "name": "Escolha a Massa",
+                            "rule": "SUM",
+                            "subgroups": [
+                                {
+                                    "id": 589269,
+                                    "name": "Escolha a Massa",
+                                    "items": [
+                                        {
+                                            "id": 4862860,
+                                            "name": "Massa de Queijo",
+                                            "description": "",
+                                            "id_erp": "4886",
+                                            "price": 0
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id": 589275,
+                            "name": "Escolha os Complementos",
+                            "rule": "SUM",
+                            "subgroups": [
+                                {
+                                    "id": 589275,
+                                    "name": "Escolha os Complementos",
+                                    "items": [
+                                        {
+                                            "id": 4862913,
+                                            "name": "Salaminho",
+                                            "description": "",
+                                            "id_erp": "2066",
+                                            "price": 2
+                                        },
+                                        {
+                                            "id": 4862922,
+                                            "name": "Azeitona",
+                                            "description": "",
+                                            "id_erp": "1443",
+                                            "price": 2
+                                        },
+                                        {
+                                            "id": 4862940,
+                                            "name": "Batata Palha",
+                                            "description": "",
+                                            "id_erp": "5897",
+                                            "price": 1.5
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 511969,
+                    "name": "05 - Coca-Cola 2L",
+                    "id_erp": "8250",
+                    "total_price": 7,
+                    "description": "Refrigerante de 2L",
+                    "image": "https://www.deliverymuch.com.br/media/55e73c260f72e.png",
+                    "size_options": {
+                        "label": "Preço",
+                        "size": {
+                            "id": 657920,
+                            "price": 7,
+                            "name": "Preço"
+                        }
+                    },
+                    "quantity": 1,
+                    "comment": null,
+                    "groups": []
+                }
+            ],
+            "company": {
+                "id": "11ec4ba1-a05d-1007-84b3-12ef5f61c2cd",
+                "name": "Empresa Teste - Integração"
+            },
+            "payment": {
+                "coupon": {
+                    "code": "#CupomFicticio",
+                    "discount": 5
+                },
+                "payment_form": {
+                    "method": "ONLINE",
+                    "card": {
+                        "id": 2,
+                        "name": "MasterCard - Crédito"
+                    }
+                },
+                "delivery": 20,
+                "subtotal": 34.7,
+                "total": 49.7
+            },
+            "fees": {
+                "service_fee": 0.4
+            },
+            "code": "P3TQTMXUE",
+            "created_at": "2023-12-20T19:00:28.459Z",
+            "updated_at": "2023-12-20T19:05:30.434Z",
+            "cancellation_description": "Pedido não efetuado. O estabelecimento não aceitou o pedido em tempo hábil. ",
+            "cancellation_description_consumer": "A loja recebeu seu pedido, porém não o confirmou a tempo.",
+            "cancellation_reason": "TIME_OUT",
+            "concluded_at": "2023-12-20T19:05:29.961Z",
+            "id": "658339cc411ea70016127399",
+            "integrated": false,
+            "viewed": false
+        },
+        {
+            "consumer": {
+                "id": "3222af514bcc4ef8bdaf8536785603df",
+                "name": "Usuário teste",
+                "phone": null,
+                "orders_company": 2,
+                "orders_total": 10
+            },
+            "delivery_form": {
+                "address": {
+                    "id": "1000000",
+                    "street": "Rua Otávio Binato",
+                    "number": "83",
+                    "district": "Centro",
+                    "city": "Santa Maria",
+                    "state": "Rio Grande do Sul",
+                    "state_acronym": "RS",
+                    "complement": "Casa",
+                    "reference": "Referência",
+                    "postal_code": "00000-000",
+                    "lat": -38.43374,
+                    "lng": -70.07792
+                },
+                "method": "DELIVERY",
+                "estimated_time": 25
+            },
+            "status": "CANCELED",
+            "stage": "WAITING_COMPANY",
+            "products": [
+                {
+                    "id": 511955,
+                    "name": "03 - Monte o seu pastel grande",
+                    "id_erp": "3190",
+                    "total_price": 27.3,
+                    "description": "Monte o seu pastel, escolha até 5 sabores e complementos. \r\nTamanho aproximado de 20cm a 30cm x 11cm\r\nO tamanho varia dependendo da quantidade de sabores e recheio que você seleciona.\r\n",
+                    "image": "https://www.deliverymuch.com.br/media/5b44c107c22e3.png",
+                    "size_options": {
+                        "label": "",
+                        "size": {
+                            "id": 657908,
+                            "price": 8,
+                            "name": ""
+                        }
+                    },
+                    "quantity": 1,
+                    "comment": null,
+                    "groups": [
+                        {
+                            "id": 3535626,
+                            "name": "Sabores",
+                            "rule": "SUM",
+                            "subgroups": [
+                                {
+                                    "id": 589271,
+                                    "name": "Escolha os Sabores",
+                                    "items": [
+                                        {
+                                            "id": 4862870,
+                                            "name": "Frango Desfiado",
+                                            "description": "Porção de aproximadamente 70g",
+                                            "id_erp": "6003",
+                                            "price": 4.8
+                                        },
+                                        {
+                                            "id": 4862891,
+                                            "name": "Bacon",
+                                            "description": "Porção de aproximadamente 70g",
+                                            "id_erp": "1977",
+                                            "price": 4.8
+                                        },
+                                        {
+                                            "id": 4862897,
+                                            "name": "Calabresa",
+                                            "description": "Porção de aproximadamente 60g",
+                                            "id_erp": "9197",
+                                            "price": 4.2
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id": 589269,
+                            "name": "Escolha a Massa",
+                            "rule": "SUM",
+                            "subgroups": [
+                                {
+                                    "id": 589269,
+                                    "name": "Escolha a Massa",
+                                    "items": [
+                                        {
+                                            "id": 4862860,
+                                            "name": "Massa de Queijo",
+                                            "description": "",
+                                            "id_erp": "4886",
+                                            "price": 0
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id": 589275,
+                            "name": "Escolha os Complementos",
+                            "rule": "SUM",
+                            "subgroups": [
+                                {
+                                    "id": 589275,
+                                    "name": "Escolha os Complementos",
+                                    "items": [
+                                        {
+                                            "id": 4862913,
+                                            "name": "Salaminho",
+                                            "description": "",
+                                            "id_erp": "2066",
+                                            "price": 2
+                                        },
+                                        {
+                                            "id": 4862922,
+                                            "name": "Azeitona",
+                                            "description": "",
+                                            "id_erp": "1443",
+                                            "price": 2
+                                        },
+                                        {
+                                            "id": 4862940,
+                                            "name": "Batata Palha",
+                                            "description": "",
+                                            "id_erp": "5897",
+                                            "price": 1.5
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 511969,
+                    "name": "05 - Coca-Cola 2L",
+                    "id_erp": "8250",
+                    "total_price": 7,
+                    "description": "Refrigerante de 2L",
+                    "image": "https://www.deliverymuch.com.br/media/55e73c260f72e.png",
+                    "size_options": {
+                        "label": "Preço",
+                        "size": {
+                            "id": 657920,
+                            "price": 7,
+                            "name": "Preço"
+                        }
+                    },
+                    "quantity": 1,
+                    "comment": null,
+                    "groups": []
+                }
+            ],
+            "company": {
+                "id": "11ec4ba1-a05d-1007-84b3-12ef5f61c2cd",
+                "name": "Empresa Teste - Integração"
+            },
+            "payment": {
+                "coupon": {
+                    "code": "#CupomFicticio",
+                    "discount": 5
+                },
+                "payment_form": {
+                    "method": "ONLINE",
+                    "card": {
+                        "id": 2,
+                        "name": "MasterCard - Crédito"
+                    }
+                },
+                "delivery": 20,
+                "subtotal": 34.7,
+                "total": 49.7
+            },
+            "fees": {
+                "service_fee": 0.4
+            },
+            "code": "F3G75M5G4",
+            "created_at": "2023-12-20T18:40:43.144Z",
+            "updated_at": "2023-12-20T18:45:45.657Z",
+            "cancellation_description": "Pedido não efetuado. O estabelecimento não aceitou o pedido em tempo hábil. ",
+            "cancellation_description_consumer": "A loja recebeu seu pedido, porém não o confirmou a tempo.",
+            "cancellation_reason": "TIME_OUT",
+            "concluded_at": "2023-12-20T18:45:44.492Z",
+            "id": "6583352a411ea70016126bc3",
+            "integrated": false,
+            "viewed": false
+        },
+        {
+            "consumer": {
+                "id": "3222af514bcc4ef8bdaf8536785603df",
+                "name": "Usuário teste",
+                "phone": null,
+                "orders_company": 2,
+                "orders_total": 10
+            },
+            "delivery_form": {
+                "address": {
+                    "id": "1000000",
+                    "street": "Rua Otávio Binato",
+                    "number": "83",
+                    "district": "Centro",
+                    "city": "Santa Maria",
+                    "state": "Rio Grande do Sul",
+                    "state_acronym": "RS",
+                    "complement": "Casa",
+                    "reference": "Referência",
+                    "postal_code": "00000-000",
+                    "lat": -38.43374,
+                    "lng": -70.07792
+                },
+                "method": "DELIVERY",
+                "estimated_time": 25
+            },
+            "status": "CANCELED",
+            "stage": "WAITING_COMPANY",
+            "products": [
+                {
+                    "id": 511955,
+                    "name": "03 - Monte o seu pastel grande",
+                    "id_erp": "3190",
+                    "total_price": 27.3,
+                    "description": "Monte o seu pastel, escolha até 5 sabores e complementos. \r\nTamanho aproximado de 20cm a 30cm x 11cm\r\nO tamanho varia dependendo da quantidade de sabores e recheio que você seleciona.\r\n",
+                    "image": "https://www.deliverymuch.com.br/media/5b44c107c22e3.png",
+                    "size_options": {
+                        "label": "",
+                        "size": {
+                            "id": 657908,
+                            "price": 8,
+                            "name": ""
+                        }
+                    },
+                    "quantity": 1,
+                    "comment": null,
+                    "groups": [
+                        {
+                            "id": 3535626,
+                            "name": "Sabores",
+                            "rule": "SUM",
+                            "subgroups": [
+                                {
+                                    "id": 589271,
+                                    "name": "Escolha os Sabores",
+                                    "items": [
+                                        {
+                                            "id": 4862870,
+                                            "name": "Frango Desfiado",
+                                            "description": "Porção de aproximadamente 70g",
+                                            "id_erp": "6003",
+                                            "price": 4.8
+                                        },
+                                        {
+                                            "id": 4862891,
+                                            "name": "Bacon",
+                                            "description": "Porção de aproximadamente 70g",
+                                            "id_erp": "1977",
+                                            "price": 4.8
+                                        },
+                                        {
+                                            "id": 4862897,
+                                            "name": "Calabresa",
+                                            "description": "Porção de aproximadamente 60g",
+                                            "id_erp": "9197",
+                                            "price": 4.2
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id": 589269,
+                            "name": "Escolha a Massa",
+                            "rule": "SUM",
+                            "subgroups": [
+                                {
+                                    "id": 589269,
+                                    "name": "Escolha a Massa",
+                                    "items": [
+                                        {
+                                            "id": 4862860,
+                                            "name": "Massa de Queijo",
+                                            "description": "",
+                                            "id_erp": "4886",
+                                            "price": 0
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id": 589275,
+                            "name": "Escolha os Complementos",
+                            "rule": "SUM",
+                            "subgroups": [
+                                {
+                                    "id": 589275,
+                                    "name": "Escolha os Complementos",
+                                    "items": [
+                                        {
+                                            "id": 4862913,
+                                            "name": "Salaminho",
+                                            "description": "",
+                                            "id_erp": "2066",
+                                            "price": 2
+                                        },
+                                        {
+                                            "id": 4862922,
+                                            "name": "Azeitona",
+                                            "description": "",
+                                            "id_erp": "1443",
+                                            "price": 2
+                                        },
+                                        {
+                                            "id": 4862940,
+                                            "name": "Batata Palha",
+                                            "description": "",
+                                            "id_erp": "5897",
+                                            "price": 1.5
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 511969,
+                    "name": "05 - Coca-Cola 2L",
+                    "id_erp": "8250",
+                    "total_price": 7,
+                    "description": "Refrigerante de 2L",
+                    "image": "https://www.deliverymuch.com.br/media/55e73c260f72e.png",
+                    "size_options": {
+                        "label": "Preço",
+                        "size": {
+                            "id": 657920,
+                            "price": 7,
+                            "name": "Preço"
+                        }
+                    },
+                    "quantity": 1,
+                    "comment": null,
+                    "groups": []
+                }
+            ],
+            "company": {
+                "id": "11ec4ba1-a05d-1007-84b3-12ef5f61c2cd",
+                "name": "Empresa Teste - Integração"
+            },
+            "payment": {
+                "coupon": {
+                    "code": "#CupomFicticio",
+                    "discount": 5
+                },
+                "payment_form": {
+                    "method": "ONLINE",
+                    "card": {
+                        "id": 2,
+                        "name": "MasterCard - Crédito"
+                    }
+                },
+                "delivery": 20,
+                "subtotal": 34.7,
+                "total": 49.7
+            },
+            "fees": {
+                "service_fee": 0.4
+            },
+            "code": "P3NPAB5UE",
+            "created_at": "2023-12-20T18:35:14.340Z",
+            "updated_at": "2023-12-20T18:40:16.859Z",
+            "cancellation_description": "Pedido não efetuado. O estabelecimento não aceitou o pedido em tempo hábil. ",
+            "cancellation_description_consumer": "A loja recebeu seu pedido, porém não o confirmou a tempo.",
+            "cancellation_reason": "TIME_OUT",
+            "concluded_at": "2023-12-20T18:40:16.358Z",
+            "id": "658333e2411ea7001612698f",
+            "integrated": false,
+            "viewed": false
+        }
+    ],
+    "total": 3,
+    "limit": 100,
+    "page": 1,
+    "pages": 1,
+    "offset": 0
+}

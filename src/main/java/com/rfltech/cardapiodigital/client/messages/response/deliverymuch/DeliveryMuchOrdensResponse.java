@@ -58,6 +58,9 @@ public class DeliveryMuchOrdensResponse {
 
         @JsonProperty("size_options")
         private Opcao opcoes;
+
+        @JsonProperty("comment")
+        private String comentario;
     }
 
     @AllArgsConstructor
@@ -107,6 +110,9 @@ public class DeliveryMuchOrdensResponse {
     @Data
     public static class Pagamento {
 
+        @JsonProperty("coupon")
+        private Cupom cupom;
+
         @JsonProperty("payment_form")
         private PagamentoForma pagamentoForma;
 
@@ -114,6 +120,18 @@ public class DeliveryMuchOrdensResponse {
 
         @JsonProperty("delivery")
         private double entrega;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Data
+    public static class Cupom {
+
+        @JsonProperty("code")
+        private String codigo;
+
+        @JsonProperty("discount")
+        private Double desconto;
     }
 
     @AllArgsConstructor
