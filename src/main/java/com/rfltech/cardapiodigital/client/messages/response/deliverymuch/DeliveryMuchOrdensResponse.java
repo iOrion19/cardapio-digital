@@ -55,6 +55,27 @@ public class DeliveryMuchOrdensResponse {
         private String idErp;
 
         private List<Groups> groups;
+
+        @JsonProperty("size_options")
+        private Opcao opcoes;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Data
+    public static class Opcao {
+
+        @JsonProperty("size")
+        private Tamanho tamanho;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Data
+    public static class Tamanho {
+
+        @JsonProperty("price")
+        private Double preco;
     }
 
     @AllArgsConstructor
@@ -90,6 +111,9 @@ public class DeliveryMuchOrdensResponse {
         private PagamentoForma pagamentoForma;
 
         private double total;
+
+        @JsonProperty("delivery")
+        private double entrega;
     }
 
     @AllArgsConstructor

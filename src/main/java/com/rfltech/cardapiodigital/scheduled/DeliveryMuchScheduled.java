@@ -72,29 +72,40 @@ public class DeliveryMuchScheduled {
         String metodoPagamento = documento.getDeliveryForm().getMetodoPagamento().toLowerCase();
         pedido.setMeioEntrega(obterMeioEntregaCardapio(metodoPagamento));
 
+        criarPedidoCardapio.getDados().setValoresEntrega(criarValoreaEntrega(documento.getPagamento()));
+
         List<CriarPedidoCardapio.Item> itens = new ArrayList<>();
+
         for (DeliveryMuchOrdensResponse.Produtos produto : documento.getProdutos()) {
+
+            CriarPedidoCardapio.Item itemCardapio = criarCardapioItem(produto);
+
+            List<CriarPedidoCardapio.Complemento> complementos = new ArrayList<>();
 
             for (DeliveryMuchOrdensResponse.Groups group : produto.getGroups()) {
 
                 for (DeliveryMuchOrdensResponse.SubGroups subGrupo : group.getSubGroups()) {
 
-                    List<CriarPedidoCardapio.Complemento> complementos = new ArrayList<>();
-
                     for (DeliveryMuchOrdensResponse.Item item : subGrupo.getItens()) {
                         complementos.add(criarComplemento(item));
                     }
-
-                    CriarPedidoCardapio.Item item = criarCardapioItem(produto);
-                    item.setComplementos(complementos);
-                    itens.add(item);
                 }
             }
+            itemCardapio.setComplementos(complementos);
+            itens.add(itemCardapio);
         }
 
+        pedido.setItens(itens);
         criarPedidoCardapio.getDados().setPedido(pedido);
 
         return criarPedidoCardapio;
+    }
+
+    private CriarPedidoCardapio.ValoresEntrega criarValoreaEntrega(DeliveryMuchOrdensResponse.Pagamento pagamento) {
+        CriarPedidoCardapio.ValoresEntrega valoresEntrega = new CriarPedidoCardapio.ValoresEntrega();
+        valoresEntrega.setValorEntrega(pagamento.getEntrega());
+
+        return valoresEntrega;
     }
 
     private CriarPedidoCardapio.Usuario criarUsuario(DeliveryMuchOrdensResponse.Usuario usuario) {
@@ -129,7 +140,7 @@ public class DeliveryMuchScheduled {
 
         cardapioItem.setNome(produto.getNome());
         cardapioItem.setQuantidade(produto.getQuantidade());
-        cardapioItem.setValor(produto.getValorTotal());
+        cardapioItem.setValor(produto.getOpcoes().getTamanho().getPreco());
         cardapioItem.setDescricao(produto.getDescricao());
         cardapioItem.setIdExterno(String.valueOf(produto.getId()));
         cardapioItem.setIdAlloy("");

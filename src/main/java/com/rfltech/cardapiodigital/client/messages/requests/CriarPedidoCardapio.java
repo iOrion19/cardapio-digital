@@ -29,7 +29,8 @@ public class CriarPedidoCardapio {
 
         private List<Pagamento> pagamento;
 
-        private ValoresEntrega valores_entrega;
+        @JsonProperty("valores_entrega")
+        private ValoresEntrega valoresEntrega;
 
         @JsonProperty("endereco_de_entrega")
         private EnderecoEntrega enderecoEntrega;
@@ -125,7 +126,8 @@ public class CriarPedidoCardapio {
     @Data
     public static class ValoresEntrega {
 
-        private double valor_entrega;
+        @JsonProperty("valor_entrega")
+        private double valorEntrega;
 
         private double valor_desconto_entrega;
     }
