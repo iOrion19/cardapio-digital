@@ -1,5 +1,5 @@
 cardapio-digital:
-  host: 'https://api.degusta.ai'
+  host: 'https://api.degusta.ai/api'
   token: ${cardapio-digital.token}
 
 sischef:
