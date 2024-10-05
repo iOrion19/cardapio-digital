@@ -1,5 +1,5 @@
 cardapio-digital:
-  host: 'https://api.iorion19.app/api'
+  host: 'https://api.degusta.ai'
   token: ${cardapio-digital.token}
 
 sischef:
